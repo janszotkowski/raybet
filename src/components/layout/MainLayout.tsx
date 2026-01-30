@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { LayoutDashboard, Trophy, Users } from 'lucide-react';
+import { LayoutDashboard, Trophy, Users, Folder } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '../../lib/utils'; // Keep using cn
 
@@ -50,17 +50,22 @@ export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): R
                     <NavLink
                         to={'/profile'}
                         icon={<Users size={24} />}
-                        label={'Profile'}
+                        label={'Profil'}
                     />
                     <NavLink
                         to={'/'}
                         icon={<LayoutDashboard size={24} />}
-                        label={'Matches'}
+                        label={'Zápasy'}
+                    />
+                    <NavLink
+                        to={'/rooms'}
+                        icon={<Folder size={24} />}
+                        label={'Místnosti'}
                     />
                     <NavLink
                         to={'/leaderboard'}
                         icon={<Trophy size={24} />}
-                        label={'Ranking'}
+                        label={'Žebříček'}
                     />
                 </div>
             </nav>

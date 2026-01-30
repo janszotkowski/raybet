@@ -35,6 +35,20 @@ export const playerService = {
         }
     },
 
+    async getProfilesByUserId(userId: string): Promise<Profile[]> {
+        try {
+            const response = await tables.listRows({
+                databaseId,
+                tableId: collections.profiles,
+                queries: [Query.equal('userId', userId)]
+            });
+            return response.rows as unknown as Profile[];
+        } catch (error) {
+            console.error('Error fetching profiles:', error);
+            return [];
+        }
+    },
+
     async updateAvatar(profileId: string, avatarUrl: string): Promise<Profile> {
         return await tables.updateRow({
             databaseId,

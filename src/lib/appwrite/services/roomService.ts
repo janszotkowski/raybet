@@ -1,4 +1,4 @@
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
 import { tables } from '../client';
 import { appwriteConfig } from '../config';
 import type { CreateRoomRequest, Room } from '../types';
@@ -30,6 +30,15 @@ export const roomService = {
         const response = await tables.listRows({
             databaseId,
             tableId: collections.rooms
+        });
+        return response.rows as unknown as Room[];
+    },
+
+    async getOwnedRooms(userId: string): Promise<Room[]> {
+        const response = await tables.listRows({
+            databaseId,
+            tableId: collections.rooms,
+            queries: [Query.equal('ownerId', userId)]
         });
         return response.rows as unknown as Room[];
     }
