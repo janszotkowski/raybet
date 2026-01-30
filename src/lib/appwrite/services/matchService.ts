@@ -1,4 +1,4 @@
-import { ID, Query } from 'appwrite';
+import { Query } from 'appwrite';
 import { tables } from '../client';
 import { appwriteConfig } from '../config';
 import type { Match } from '../types';

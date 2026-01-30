@@ -12,10 +12,10 @@ export const Input: React.FC<InputProps> = (props: InputProps): React.ReactEleme
     const { className, containerClassName, label, error, ...rest } = props;
 
     return (
-        <div className={cn("w-full", containerClassName)}>
-            <div className="relative group bg-[#1C1C1E] rounded-[10px] overflow-hidden flex items-center">
+        <div className={cn('w-full', containerClassName)}>
+            <div className={'relative group bg-[#1C1C1E] rounded-[10px] overflow-hidden flex items-center'}>
                 {label && (
-                    <label className="pl-4 py-3 text-[17px] text-white whitespace-nowrap min-w-[100px]">
+                    <label className={'pl-4 py-3 text-[17px] text-white whitespace-nowrap min-w-[100px]'}>
                         {label}
                     </label>
                 )}
@@ -29,7 +29,7 @@ export const Input: React.FC<InputProps> = (props: InputProps): React.ReactEleme
                 />
             </div>
             {error && (
-                <div className="flex items-center gap-1.5 text-red-500 text-[13px] mt-1.5 pl-4">
+                <div className={'flex items-center gap-1.5 text-red-500 text-[13px] mt-1.5 pl-4'}>
                     <AlertCircle size={14} />
                     <span>{error}</span>
                 </div>

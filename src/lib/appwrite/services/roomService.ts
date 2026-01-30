@@ -1,7 +1,7 @@
-import { ID, Query } from 'appwrite';
+import { ID } from 'appwrite';
 import { tables } from '../client';
 import { appwriteConfig } from '../config';
-import type { Room, CreateRoomRequest } from '../types';
+import type { CreateRoomRequest, Room } from '../types';
 
 const { databaseId, collections } = appwriteConfig;
 

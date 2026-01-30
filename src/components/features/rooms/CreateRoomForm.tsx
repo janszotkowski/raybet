@@ -47,33 +47,33 @@ export const CreateRoomForm: React.FC = (): React.ReactElement => {
     };
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="space-y-1">
-                <h2 className="text-[28px] font-bold text-white tracking-tight">Vytvořit hru</h2>
-                <p className="text-[17px] text-text-secondary">Založ novou místnost pro kolegy.</p>
+        <div className={'flex flex-col gap-6'}>
+            <div className={'space-y-1'}>
+                <h2 className={'text-[28px] font-bold text-white tracking-tight'}>Vytvořit hru</h2>
+                <p className={'text-[17px] text-text-secondary'}>Založ novou místnost pro kolegy.</p>
             </div>
 
-            <div className="space-y-4">
-                <div className="space-y-2">
+            <div className={'space-y-4'}>
+                <div className={'space-y-2'}>
                     <Input
-                        label="Přezdívka"
-                        placeholder="Jan"
+                        label={'Přezdívka'}
+                        placeholder={'Jan'}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                     />
                     <Input
-                        label="Název"
-                        placeholder="IT Oddělení"
+                        label={'Název'}
+                        placeholder={'IT Oddělení'}
                         value={roomName}
                         onChange={(e) => setRoomName(e.target.value)}
                     />
                 </div>
 
-                <div className="pt-4">
+                <div className={'pt-4'}>
                     <Button
-                        variant="primary"
-                        size="lg"
-                        className="w-full"
+                        variant={'primary'}
+                        size={'lg'}
+                        className={'w-full'}
                         onClick={handleCreate}
                         isLoading={isLoading}
                         disabled={!roomName || !nickname}

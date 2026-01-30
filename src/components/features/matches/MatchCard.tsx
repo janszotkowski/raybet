@@ -1,11 +1,10 @@
+import { Clock, Lock } from 'lucide-react';
 import * as React from 'react';
-import { Card } from '../../ui/Card';
-import { Button } from '../../ui/Button';
-import { cn } from '../../../lib/utils';
-import type { Match, Prediction } from '../../../lib/appwrite/types';
 import { predictionService } from '../../../lib/appwrite/services/predictionService';
+import type { Match, Prediction } from '../../../lib/appwrite/types';
 import { useAuthStore } from '../../../lib/store/authStore';
-import { Loader2, Lock, Clock, CheckCircle } from 'lucide-react';
+import { Button } from '../../ui/Button';
+import { Card } from '../../ui/Card';
 
 type MatchCardProps = {
     match: Match;
@@ -62,72 +61,76 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
             onPredictionUpdate?.(updated);
             setIsEditMode(false);
         } catch (err) {
-            console.error("Failed to save prediction", err);
+            console.error('Failed to save prediction', err);
         } finally {
             setIsSaving(false);
         }
     };
 
     return (
-        <Card className="flex flex-col gap-4 relative overflow-hidden bg-sport-card/80 border-sport-card-border backdrop-blur-sm" variant="default">
+        <Card className={'flex flex-col gap-4 relative overflow-hidden bg-sport-card/80 border-sport-card-border backdrop-blur-sm'} variant={'default'}>
             {/* Header */}
-            <div className="flex justify-between items-center text-xs font-medium text-text-secondary">
-                <div className="flex items-center gap-1.5 bg-sport-bg/50 px-2 py-1 rounded-full">
+            <div className={'flex justify-between items-center text-xs font-medium text-text-secondary'}>
+                <div className={'flex items-center gap-1.5 bg-sport-bg/50 px-2 py-1 rounded-full'}>
                     {isLocked ? (
-                        <span className="flex items-center gap-1 text-text-secondary"><Lock size={12} /> {isFinished ? 'Finished' : 'Locked'}</span>
+                        <span className={'flex items-center gap-1 text-text-secondary'}><Lock size={12} /> {isFinished ? 'Finished' : 'Locked'}</span>
                     ) : (
-                        <span className="flex items-center gap-1 text-brand-primary"><Clock size={12} /> {new Date(match.date).toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}</span>
+                        <span className={'flex items-center gap-1 text-brand-primary'}><Clock size={12} /> {new Date(match.date).toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}</span>
                     )}
                 </div>
-                {isLive && <span className="text-red-500 font-bold animate-pulse">LIVE</span>}
+                {isLive && <span className={'text-red-500 font-bold animate-pulse'}>LIVE</span>}
             </div>
 
             {/* Teams Row */}
-            <div className="flex items-center justify-between px-2">
+            <div className={'flex items-center justify-between px-2'}>
                 {/* Home */}
-                <div className="flex flex-col items-center gap-2 w-1/3">
-                    <div className="h-10 w-14 shadow-lg rounded-[4px] overflow-hidden bg-gray-800 relative">
-                        <img src={getFlagUrl(match.homeTeam)} alt={match.homeTeam} className="w-full h-full object-cover" />
+                <div className={'flex flex-col items-center gap-2 w-1/3'}>
+                    <div className={'h-10 w-14 shadow-lg rounded-[4px] overflow-hidden bg-gray-800 relative'}>
+                        <img
+                            src={getFlagUrl(match.homeTeam)}
+                            alt={match.homeTeam}
+                            className={'w-full h-full object-cover'}
+                        />
                     </div>
-                    <span className="text-sm font-bold text-white text-center leading-tight">{match.homeTeam}</span>
+                    <span className={'text-sm font-bold text-white text-center leading-tight'}>{match.homeTeam}</span>
                 </div>
 
                 {/* VS / Score */}
-                <div className="flex flex-col items-center justify-center w-1/3 z-10">
+                <div className={'flex flex-col items-center justify-center w-1/3 z-10'}>
                     {isEditMode ? (
-                        <div className="flex items-center gap-2 bg-sport-bg/80 p-1.5 rounded-xl border border-sport-card-border shadow-inner">
+                        <div className={'flex items-center gap-2 bg-sport-bg/80 p-1.5 rounded-xl border border-sport-card-border shadow-inner'}>
                             <input
-                                className="w-9 h-10 bg-sport-card rounded-lg text-center text-xl font-bold text-white focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                className={'w-9 h-10 bg-sport-card rounded-lg text-center text-xl font-bold text-white focus:ring-1 focus:ring-brand-primary outline-none transition-all'}
                                 value={homeScore}
                                 onChange={(e) => setHomeScore(e.target.value)}
-                                type="number"
-                                placeholder="-"
+                                type={'number'}
+                                placeholder={'-'}
                             />
-                            <span className="text-text-secondary font-bold">:</span>
+                            <span className={'text-text-secondary font-bold'}>:</span>
                             <input
-                                className="w-9 h-10 bg-sport-card rounded-lg text-center text-xl font-bold text-white focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                className={'w-9 h-10 bg-sport-card rounded-lg text-center text-xl font-bold text-white focus:ring-1 focus:ring-brand-primary outline-none transition-all'}
                                 value={awayScore}
                                 onChange={(e) => setAwayScore(e.target.value)}
-                                type="number"
-                                placeholder="-"
+                                type={'number'}
+                                placeholder={'-'}
                             />
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center">
-                            <div className="text-3xl font-black text-white tracking-widest flex items-center gap-2">
+                        <div className={'flex flex-col items-center'}>
+                            <div className={'text-3xl font-black text-white tracking-widest flex items-center gap-2'}>
                                 {existingPrediction ? (
                                     <>
                                         <span className={existingPrediction.homeScore > existingPrediction.awayScore ? 'text-brand-primary' : ''}>{existingPrediction.homeScore}</span>
-                                        <span className="text-sport-card-border text-2xl">:</span>
+                                        <span className={'text-sport-card-border text-2xl'}>:</span>
                                         <span className={existingPrediction.awayScore > existingPrediction.homeScore ? 'text-brand-primary' : ''}>{existingPrediction.awayScore}</span>
                                     </>
                                 ) : (
-                                    <span className="text-2xl text-sport-card-border font-bold">VS</span>
+                                    <span className={'text-2xl text-sport-card-border font-bold'}>VS</span>
                                 )}
                             </div>
                             {/* Real Score if finished */}
                             {isFinished && (
-                                <span className="text-[10px] text-text-secondary mt-1 bg-sport-bg px-2 py-0.5 rounded-full">
+                                <span className={'text-[10px] text-text-secondary mt-1 bg-sport-bg px-2 py-0.5 rounded-full'}>
                                     Real: {match.homeScore}:{match.awayScore}
                                 </span>
                             )}
@@ -136,11 +139,15 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
                 </div>
 
                 {/* Away */}
-                <div className="flex flex-col items-center gap-2 w-1/3">
-                    <div className="h-10 w-14 shadow-lg rounded-[4px] overflow-hidden bg-gray-800 relative">
-                        <img src={getFlagUrl(match.awayTeam)} alt={match.awayTeam} className="w-full h-full object-cover" />
+                <div className={'flex flex-col items-center gap-2 w-1/3'}>
+                    <div className={'h-10 w-14 shadow-lg rounded-[4px] overflow-hidden bg-gray-800 relative'}>
+                        <img
+                            src={getFlagUrl(match.awayTeam)}
+                            alt={match.awayTeam}
+                            className={'w-full h-full object-cover'}
+                        />
                     </div>
-                    <span className="text-sm font-bold text-white text-center leading-tight">{match.awayTeam}</span>
+                    <span className={'text-sm font-bold text-white text-center leading-tight'}>{match.awayTeam}</span>
                 </div>
             </div>
 
@@ -148,22 +155,22 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
             {!isLocked && (
                 isEditMode ? (
                     <Button
-                        variant="primary"
+                        variant={'primary'}
                         fullWidth
-                        size="md"
+                        size={'md'}
                         onClick={handleSave}
                         isLoading={isSaving}
-                        className="mt-2"
+                        className={'mt-2'}
                     >
                         Save Tip
                     </Button>
                 ) : (
                     <Button
-                        variant="secondary"
+                        variant={'secondary'}
                         fullWidth
-                        size="sm"
+                        size={'sm'}
                         onClick={() => setIsEditMode(true)}
-                        className="mt-2 bg-sport-card/50 hover:bg-sport-card border-dashed border-sport-card-border"
+                        className={'mt-2 bg-sport-card/50 hover:bg-sport-card border-dashed border-sport-card-border'}
                     >
                         {existingPrediction ? 'Edit Prediction' : 'Make Prediction'}
                     </Button>
@@ -172,7 +179,7 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
 
             {/* Locked Visual */}
             {isLocked && existingPrediction && (
-                <div className="absolute inset-0 pointer-events-none border border-transparent" />
+                <div className={'absolute inset-0 pointer-events-none border border-transparent'} />
             )}
         </Card>
     );

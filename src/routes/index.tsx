@@ -44,8 +44,8 @@ function IndexPage() {
 
     if (isLoading) {
         return (
-            <div className="flex h-full items-center justify-center pt-20">
-                <Loader2 className="animate-spin text-brand-primary" size={32} />
+            <div className={'flex h-full items-center justify-center pt-20'}>
+                <Loader2 className={'animate-spin text-brand-primary'} size={32} />
             </div>
         );
     }
@@ -53,11 +53,11 @@ function IndexPage() {
     // Authenticated and has room -> Show Dashboard
     if (profile?.roomId) {
         return (
-            <div className="flex flex-col gap-4 -mx-4">
-                <div className="bg-brand-dark px-4 py-2">
-                    <h1 className="text-white font-bold text-lg">Zápasy</h1>
+            <div className={'flex flex-col gap-4 -mx-4'}>
+                <div className={'bg-brand-dark px-4 py-2'}>
+                    <h1 className={'text-white font-bold text-lg'}>Zápasy</h1>
                 </div>
-                <div className="px-4">
+                <div className={'px-4'}>
                     <MatchList />
                 </div>
             </div>
@@ -66,31 +66,40 @@ function IndexPage() {
 
     // Not authenticated or no room -> Landing Page
     return (
-        <div className="flex flex-col gap-6 pt-10 px-2">
-            <div className="text-center space-y-2">
-                <h1 className="text-2xl font-bold text-brand-dark">Vítej v RayBet!</h1>
-                <p className="text-slate-500 text-sm">Tipuj výsledky hokeje a vyhraj nad kolegy.</p>
+        <div className={'flex flex-col gap-6 pt-10 px-2'}>
+            <div className={'text-center space-y-2'}>
+                <h1 className={'text-2xl font-bold text-brand-dark'}>Vítej v RayBet!</h1>
+                <p className={'text-slate-500 text-sm'}>Tipuj výsledky hokeje a vyhraj nad kolegy.</p>
             </div>
 
             {view === 'landing' && (
-                <div className="flex flex-col gap-4 mt-4">
-                    <Button variant="primary" size="lg" onClick={() => setView('join')}>
+                <div className={'flex flex-col gap-4 mt-4'}>
+                    <Button
+                        variant={'primary'}
+                        size={'lg'}
+                        onClick={() => setView('join')}
+                    >
                         Mám kód místnosti
                     </Button>
-                    <div className="relative flex py-2 items-center">
-                        <div className="grow border-t border-slate-300"></div>
-                        <span className="shrink mx-4 text-slate-400 text-xs">NEBO</span>
-                        <div className="grow border-t border-slate-300"></div>
+                    <div className={'relative flex py-2 items-center'}>
+                        <div className={'grow border-t border-slate-300'}></div>
+                        <span className={'shrink mx-4 text-slate-400 text-xs'}>NEBO</span>
+                        <div className={'grow border-t border-slate-300'}></div>
                     </div>
-                    <Button variant="outline" onClick={() => setView('create')}>
+                    <Button variant={'outline'} onClick={() => setView('create')}>
                         Vytvořit novou místnost
                     </Button>
                 </div>
             )}
 
             {view === 'create' && (
-                <div className="flex flex-col gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => setView('landing')} className="self-start -ml-2">
+                <div className={'flex flex-col gap-2'}>
+                    <Button
+                        variant={'ghost'}
+                        size={'sm'}
+                        onClick={() => setView('landing')}
+                        className={'self-start -ml-2'}
+                    >
                         ← Zpět
                     </Button>
                     <CreateRoomForm />
@@ -98,8 +107,13 @@ function IndexPage() {
             )}
 
             {view === 'join' && (
-                <div className="flex flex-col gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => setView('landing')} className="self-start -ml-2">
+                <div className={'flex flex-col gap-2'}>
+                    <Button
+                        variant={'ghost'}
+                        size={'sm'}
+                        onClick={() => setView('landing')}
+                        className={'self-start -ml-2'}
+                    >
                         ← Zpět
                     </Button>
                     <JoinRoomForm />
@@ -110,7 +124,8 @@ function IndexPage() {
                 <button onClick={async () => {
                     const result = await client.ping();
                     console.log(result);
-                }}>
+                }}
+                >
                     Ping
                 </button>
             </div>

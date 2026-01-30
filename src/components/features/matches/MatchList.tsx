@@ -44,7 +44,7 @@ export const MatchList: React.FC = (): React.ReactElement => {
                 }
 
             } catch (err) {
-                console.error("Error fetching data", err);
+                console.error('Error fetching data', err);
             } finally {
                 setIsLoading(false);
             }
@@ -56,35 +56,35 @@ export const MatchList: React.FC = (): React.ReactElement => {
     const filteredMatches = matches.filter(m => m.date.startsWith(selectedDate));
 
     if (isLoading) return (
-        <div className="flex flex-col items-center justify-center min-h-[300px]">
-            <Loader2 className="w-8 h-8 text-brand-primary animate-spin" />
+        <div className={'flex flex-col items-center justify-center min-h-[300px]'}>
+            <Loader2 className={'w-8 h-8 text-brand-primary animate-spin'} />
         </div>
     );
 
     if (matches.length === 0) return (
-        <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8 text-text-secondary">
-            <h3 className="font-bold text-lg text-white mb-2">No Matches Found</h3>
-            <p className="opacity-70">Check back later for upcoming games.</p>
+        <div className={'flex flex-col items-center justify-center min-h-[50vh] text-center p-8 text-text-secondary'}>
+            <h3 className={'font-bold text-lg text-white mb-2'}>No Matches Found</h3>
+            <p className={'opacity-70'}>Check back later for upcoming games.</p>
         </div>
     );
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className={'flex flex-col w-full h-full'}>
             {/* Header Area */}
-            <div className="px-4 pt-2">
-                <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-sport-card border border-sport-card-border text-brand-primary">
+            <div className={'px-4 pt-2'}>
+                <div className={'flex items-center gap-3 mb-2'}>
+                    <div className={'p-2 rounded-lg bg-sport-card border border-sport-card-border text-brand-primary'}>
                         <Calendar size={20} />
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-white tracking-tight">Matches & Predictions</h1>
-                        <p className="text-xs text-text-secondary">Make your picks before matches start</p>
+                        <h1 className={'text-xl font-bold text-white tracking-tight'}>Matches & Predictions</h1>
+                        <p className={'text-xs text-text-secondary'}>Make your picks before matches start</p>
                     </div>
                 </div>
             </div>
 
             {/* Date Tabs */}
-            <div className="px-3 border-b border-sport-card-border/50 mb-4 sticky top-0 bg-sport-bg z-20 backdrop-blur-md">
+            <div className={'px-3 border-b border-sport-card-border/50 mb-4 sticky top-0 bg-sport-bg z-20 backdrop-blur-md'}>
                 <DailySlider
                     days={days}
                     selectedDate={selectedDate}
@@ -93,9 +93,9 @@ export const MatchList: React.FC = (): React.ReactElement => {
             </div>
 
             {/* Matches List */}
-            <div className="px-4 pb-24 flex flex-col gap-4">
+            <div className={'px-4 pb-24 flex flex-col gap-4'}>
                 {/* Optional Group Helper: "Group Stage" */}
-                <h3 className="text-xs font-bold text-brand-primary uppercase tracking-widest pl-1">Games</h3>
+                <h3 className={'text-xs font-bold text-brand-primary uppercase tracking-widest pl-1'}>Games</h3>
 
                 {filteredMatches.length > 0 ? (
                     filteredMatches.map(match => (
@@ -107,7 +107,7 @@ export const MatchList: React.FC = (): React.ReactElement => {
                         />
                     ))
                 ) : (
-                    <div className="py-12 text-center text-text-secondary border border-dashed border-sport-card-border rounded-2xl bg-sport-card/30">
+                    <div className={'py-12 text-center text-text-secondary border border-dashed border-sport-card-border rounded-2xl bg-sport-card/30'}>
                         No matches scheduled for this day.
                     </div>
                 )}

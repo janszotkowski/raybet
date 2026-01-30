@@ -42,7 +42,7 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps): React.ReactEl
             disabled={disabled || isLoading}
             {...rest}
         >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Loader2 className={'mr-2 h-4 w-4 animate-spin'} />}
             {children}
         </button>
     );

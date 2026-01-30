@@ -1,12 +1,12 @@
+import { useNavigate } from '@tanstack/react-router';
+import { ID } from 'appwrite';
 import * as React from 'react';
-import { Button } from '../../ui/Button';
-import { Input } from '../../ui/Input';
-import { roomService } from '../../../lib/appwrite/services/roomService';
 import { playerService } from '../../../lib/appwrite/services/playerService';
+import { roomService } from '../../../lib/appwrite/services/roomService';
 import { useAuthStore } from '../../../lib/store/authStore';
 import { useProfileStore } from '../../../lib/store/profileStore';
-import { ID } from 'appwrite';
-import { useNavigate } from '@tanstack/react-router';
+import { Button } from '../../ui/Button';
+import { Input } from '../../ui/Input';
 
 export const JoinRoomForm: React.FC = (): React.ReactElement => {
     const [roomCode, setRoomCode] = React.useState('');
@@ -52,33 +52,33 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
     };
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="space-y-1">
-                <h2 className="text-[28px] font-bold text-white tracking-tight">Vítej zpět!</h2>
-                <p className="text-[17px] text-text-secondary">Připoj se ke hře s kolegy.</p>
+        <div className={'flex flex-col gap-6'}>
+            <div className={'space-y-1'}>
+                <h2 className={'text-[28px] font-bold text-white tracking-tight'}>Vítej zpět!</h2>
+                <p className={'text-[17px] text-text-secondary'}>Připoj se ke hře s kolegy.</p>
             </div>
 
-            <div className="space-y-4">
-                <div className="space-y-2">
+            <div className={'space-y-4'}>
+                <div className={'space-y-2'}>
                     <Input
-                        label="Přezdívka"
-                        placeholder="Jan"
+                        label={'Přezdívka'}
+                        placeholder={'Jan'}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                     />
                     <Input
-                        label="Kód"
-                        placeholder="RAY-123"
+                        label={'Kód'}
+                        placeholder={'RAY-123'}
                         value={roomCode}
                         onChange={(e) => setRoomCode(e.target.value)}
                         error={error || undefined}
                     />
                 </div>
 
-                <div className="pt-4">
+                <div className={'pt-4'}>
                     <Button
-                        variant="primary"
-                        size="lg"
+                        variant={'primary'}
+                        size={'lg'}
                         onClick={handleJoin}
                         isLoading={isLoading}
                         disabled={!roomCode || !nickname}
