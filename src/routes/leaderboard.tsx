@@ -125,7 +125,7 @@ function LeaderboardPage() {
                                     'text-[10px] font-bold',
                                     rank === 1 ? 'text-yellow-400' : rank === 2 ? 'text-gray-300' : 'text-amber-600',
                                 )}
-                                                       >
+                                >
                                     {rank === 1 ? 'Gold' : rank === 2 ? 'Silver' : 'Bronze'}
                                 </span>}
                             </div>
@@ -144,7 +144,7 @@ function LeaderboardPage() {
 
             {/* Sticky Me (Bottom) - if not in view logic, static for now just as reference style */}
             {!profiles.slice(0, 5).some(p => p.userId === profile.userId) && (
-                <div className={'fixed bottom-[85px] left-0 w-full px-4 z-20 animate-slide-up'}>
+                <div className={'fixed bottom-21.25 left-0 w-full px-4 z-20 animate-slide-up'}>
                     <Card
                         className={'flex items-center gap-4 px-4 py-3 bg-sport-card border border-brand-primary shadow-[0_0_20px_rgba(45,212,191,0.15)]'}
                         noPadding

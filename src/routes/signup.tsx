@@ -10,7 +10,7 @@ export const Route = createFileRoute('/signup')({
     validateSearch: (search: Record<string, unknown>) => {
         return {
             redirect: (search.redirect as string) || undefined,
-        }
+        };
     },
     component: SignUpPage,
 });
@@ -22,7 +22,7 @@ function SignUpPage() {
     const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const { login } = useAuthStore();
+    const {login} = useAuthStore();
     const navigate = useNavigate();
     const search = Route.useSearch();
 
@@ -38,9 +38,9 @@ function SignUpPage() {
             login(user);
 
             if (search.redirect) {
-                await navigate({ to: search.redirect });
+                await navigate({to: search.redirect});
             } else {
-                await navigate({ to: '/' });
+                await navigate({to: '/'});
             }
         } catch (err: unknown) {
             console.error('Sign up failed', err);
@@ -93,7 +93,7 @@ function SignUpPage() {
                     disabled={isLoading}
                     type={'submit'}
                 >
-                    {isLoading ? <Loader2 className={'animate-spin'} /> : 'Zaregistrovat se'}
+                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Zaregistrovat se'}
                 </Button>
             </form>
 
