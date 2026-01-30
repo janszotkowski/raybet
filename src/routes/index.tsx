@@ -2,49 +2,19 @@ import { createFileRoute } from '@tanstack/react-router';
 import * as React from 'react';
 import { useAuthStore } from '../lib/store/authStore';
 import { useProfileStore } from '../lib/store/profileStore';
-import { playerService } from '../lib/appwrite/services/playerService';
 import { CreateRoomForm } from '../components/features/rooms/CreateRoomForm';
 import { JoinRoomForm } from '../components/features/rooms/JoinRoomForm';
 import { MatchList } from '../components/features/matches/MatchList';
 import { Button } from '../components/ui/Button';
-import { Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/')({
     component: IndexPage,
 });
 
 function IndexPage() {
-    const { user } = useAuthStore();
-    const { profile, setProfile } = useProfileStore();
-    const [isLoading, setIsLoading] = React.useState(true);
+    const {user} = useAuthStore();
+    const {profile} = useProfileStore();
     const [view, setView] = React.useState<'selection' | 'create' | 'join'>('selection');
-
-    React.useEffect(() => {
-        const checkProfile = async () => {
-            if (!user?.$id) return;
-
-            try {
-                const fetchedProfile = await playerService.getProfileByUserId(user.$id);
-                if (fetchedProfile) {
-                    setProfile(fetchedProfile);
-                }
-            } catch (err) {
-                console.error('Failed to fetch profile', err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        checkProfile();
-    }, [user, setProfile]);
-
-    if (isLoading) {
-        return (
-            <div className={'flex h-full items-center justify-center pt-20'}>
-                <Loader2 className={'animate-spin text-brand-primary'} size={32} />
-            </div>
-        );
-    }
 
     // Authenticated and has room -> Show Dashboard
     if (profile?.roomId) {
@@ -54,7 +24,7 @@ function IndexPage() {
                     <h1 className={'text-white font-bold text-lg'}>Zápasy</h1>
                 </div>
                 <div className={'px-4'}>
-                    <MatchList />
+                    <MatchList/>
                 </div>
             </div>
         );
@@ -98,7 +68,7 @@ function IndexPage() {
                     >
                         ← Zpět
                     </Button>
-                    <CreateRoomForm />
+                    <CreateRoomForm/>
                 </div>
             )}
 
@@ -112,7 +82,7 @@ function IndexPage() {
                     >
                         ← Zpět
                     </Button>
-                    <JoinRoomForm />
+                    <JoinRoomForm/>
                 </div>
             )}
         </div>
