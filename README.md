@@ -1,11 +1,13 @@
 **Zadání:**
 
 **Design a UI**
+
 Vizuální styl: Celá aplikace musí být v ideálně v barvách loga Raynetu (tyrkysová, světle modrá a tmavě modrá). Logo samotné zakomponuj někam vkusně do horní části aplikace, ale whatever..
 
 Layout: Musí to být jednotné pro mobil i web. Vycentrovaný kontejner pro mobilní zobrazení o maximální šířce 480px, který bude na desktopu uprostřed obrazovky. Viz. Figma.
 
 **Registrace a login page**
+
 Tahle část ve figme není. Jako db použít https://appwrite.io/ nebo https://supabase.com/ nebo https://pocketbase.io/ (nechám na mistrech v oboru)
 
 Registrace, Login a systém Místností (Rooms)
@@ -46,7 +48,7 @@ Data a propojení:
 
 Žebříček (Leaderboard) se bude vždy filtrovat podle ID místnosti. Uživatel tedy neuvidí tisíce cizích lidí, ale pouze své kolegy z dané místnosti.
 
-**Profil hráče:** (obr. profil_hrace)
+**Profil hráče:**
 
 Uživatel si zde může nahrát vlastní avatar.
 
@@ -54,14 +56,22 @@ Musí zde být mřížka  se statistikami: Přesný výsledek, Správný rozdíl
 
 Pod celkovým počtem bodů bude speciální kolonka pro tip vítěze celého turnaje. Měl by to být dropdown s listem všech národních týmů. Tento tip musí jít před začátkem olympiády uložit a následně uzamknout, aby už nešel měnit.
 
-**Zápasy a Data** (obr. zapasy)
+<img width="1115" height="1287" alt="profil_hrace" src="https://github.com/user-attachments/assets/1c7ff779-8e1e-4c95-b2a9-6ecc754817b0" />
+
+<img width="723" height="310" alt="spodni_lista" src="https://github.com/user-attachments/assets/1a3f499a-801d-4fa2-9eae-73080c47a805" />
+
+**Zápasy a Data**
+
 API: Data pro jednotlivé zápasy budeme tahat z webu thesportsdb.com.
 
 Zobrazení: Seznam zápasů nebude rozdělený na taby podle fází turnaje. Vše půjde chronologicky za sebou (skupiny a pak playoff).
 
 Denní výpis: Na stránce se zápasy bude nahoře slider s jednotlivými dny. Po kliknutí na konkrétní den se zobrazí seznam zápasů pro dané datum. U každého zápasu budou dvě kolonky pro zadání výsledku.
 
+<img width="706" height="827" alt="zapasy" src="https://github.com/user-attachments/assets/23eab669-a221-44c6-a731-c620184246a5" />
+
 **Systém bodování**
+
 Body budeme rozdělovat následovně:
 
 6 bodů za přesný tip výsledku zápasu.
@@ -72,7 +82,10 @@ Body budeme rozdělovat následovně:
 
 15 bodů za správný tip celkového vítěze turnaje (toho, co si hráč uzamkne na profilu).
 
-**Žebříček** (obr. ranking)
+**Žebříček**
+
 Poslední stránka bude obsahovat aktuální pořadí všech hráčů.
 
 Aktuálně přihlášený uživatel musí svou pozici vidět neustále (např. v ukotveném řádku dole), i když se v seznamu zrovna nenachází. Zde by mohlo být kromě celkových bodů také počet přesnýh tipů a možnost prokliknout se na profil jiného uživatele.
+
+<img width="670" height="1123" alt="ranking" src="https://github.com/user-attachments/assets/fb5b1cd7-6469-458e-9574-762dde4fa899" />
