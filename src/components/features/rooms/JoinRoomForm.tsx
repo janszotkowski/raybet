@@ -1,5 +1,4 @@
 import { useNavigate } from '@tanstack/react-router';
-import { ID } from 'appwrite';
 import * as React from 'react';
 import { playerService } from '../../../lib/appwrite/services/playerService';
 import { roomService } from '../../../lib/appwrite/services/roomService';
@@ -14,8 +13,8 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
 
-    const { userId, setUserId } = useAuthStore();
-    const { setProfile } = useProfileStore();
+    const {userId} = useAuthStore();
+    const {setProfile} = useProfileStore();
     const navigate = useNavigate();
 
     const handleJoin = async () => {
@@ -31,17 +30,18 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
                 return;
             }
 
-            const currentUserId = userId || ID.unique();
-            if (!userId) setUserId(currentUserId);
+            // userId is guaranteed by AuthGuard when this component is reached (if strictly used)
+            // But checking for safety
+            if (!userId) return;
 
             const profile = await playerService.createProfile({
-                userId: currentUserId,
+                userId: userId,
                 nickname: nickname,
-                roomId: room.$id
+                roomId: room.$id,
             });
 
             setProfile(profile);
-            await navigate({ to: '/' });
+            await navigate({to: '/'});
 
         } catch (err: any) {
             console.error('Failed to join room:', err);

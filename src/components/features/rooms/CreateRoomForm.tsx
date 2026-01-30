@@ -5,7 +5,6 @@ import { roomService } from '../../../lib/appwrite/services/roomService';
 import { playerService } from '../../../lib/appwrite/services/playerService';
 import { useAuthStore } from '../../../lib/store/authStore';
 import { useProfileStore } from '../../../lib/store/profileStore';
-import { ID } from 'appwrite';
 import { useNavigate } from '@tanstack/react-router';
 
 export const CreateRoomForm: React.FC = (): React.ReactElement => {
@@ -13,31 +12,28 @@ export const CreateRoomForm: React.FC = (): React.ReactElement => {
     const [nickname, setNickname] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const { userId, setUserId } = useAuthStore();
-    const { setProfile } = useProfileStore();
+    const {userId} = useAuthStore();
+    const {setProfile} = useProfileStore();
     const navigate = useNavigate();
 
     const handleCreate = async () => {
-        if (!roomName.trim() || !nickname.trim()) return;
+        if (!roomName.trim() || !nickname.trim() || !userId) return;
 
         setIsLoading(true);
         try {
-            const currentUserId = userId || ID.unique();
-            if (!userId) setUserId(currentUserId);
-
             const room = await roomService.createRoom({
                 name: roomName,
-                ownerId: currentUserId
+                ownerId: userId,
             });
 
             const profile = await playerService.createProfile({
-                userId: currentUserId,
+                userId: userId,
                 nickname: nickname,
-                roomId: room.$id
+                roomId: room.$id,
             });
 
             setProfile(profile);
-            await navigate({ to: '/' });
+            await navigate({to: '/'});
 
         } catch (error) {
             console.error('Failed to create room:', error);

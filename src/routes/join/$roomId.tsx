@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createFileRoute, useNavigate, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useAuthStore } from '../../lib/store/authStore';
 import { useProfileStore } from '../../lib/store/profileStore';
 import { roomService } from '../../lib/appwrite/services/roomService';
@@ -7,17 +7,16 @@ import { playerService } from '../../lib/appwrite/services/playerService';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Loader2 } from 'lucide-react';
-import { ID } from 'appwrite';
 
 export const Route = createFileRoute('/join/$roomId')({
     component: JoinRoomPage,
 });
 
 function JoinRoomPage() {
-    const { roomId } = Route.useParams();
+    const {roomId} = Route.useParams();
     const navigate = useNavigate();
-    const { userId, setUserId } = useAuthStore();
-    const { setProfile } = useProfileStore();
+    const {userId} = useAuthStore();
+    const {setProfile} = useProfileStore();
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [isJoining, setIsJoining] = React.useState(false);
@@ -28,6 +27,8 @@ function JoinRoomPage() {
     // Fetch room details and check if already member
     React.useEffect(() => {
         const checkRoom = async () => {
+            if (!userId) return;
+
             try {
                 // 1. Check if room exists
                 const room = await roomService.getRoom(roomId);
@@ -38,22 +39,20 @@ function JoinRoomPage() {
                 }
                 setRoomName(room.name);
 
-                // 2. If logged in, check if already joined
-                if (userId) {
-                    const profiles = await playerService.getProfilesByUserId(userId);
-                    const existingMembership = profiles.find(p => p.roomId === roomId);
+                // 2. Check if already joined
+                const profiles = await playerService.getProfilesByUserId(userId);
+                const existingMembership = profiles.find(p => p.roomId === roomId);
 
-                    if (existingMembership) {
-                        // Already joined -> set as active profile and redirect
-                        setProfile(existingMembership);
-                        navigate({ to: '/' });
-                        return;
-                    }
+                if (existingMembership) {
+                    // Already joined -> set as active profile and redirect
+                    setProfile(existingMembership);
+                    navigate({to: '/'});
+                    return;
+                }
 
-                    // Pre-fill nickname if they have other profiles
-                    if (profiles.length > 0) {
-                        setNickname(profiles[0].nickname);
-                    }
+                // Pre-fill nickname type if they have other profiles
+                if (profiles.length > 0) {
+                    setNickname(profiles[0].nickname);
                 }
             } catch (err) {
                 console.error(err);
@@ -67,28 +66,19 @@ function JoinRoomPage() {
     }, [roomId, userId, navigate, setProfile]);
 
     const handleJoin = async () => {
-        if (!nickname.trim()) return;
+        if (!nickname.trim() || !userId) return;
         setIsJoining(true);
         setError(null);
 
         try {
-            const currentUserId = userId || ID.unique();
-            // If not logged in, we set the ID now. 
-            // NOTE: Real auth flow might require registration first. 
-            // The current app seems to use "userId" as a simple specialized ID or expects the user to be handled.
-            // Based on JoinRoomForm, if !userId, it sets one.
-            if (!userId) {
-                setUserId(currentUserId);
-            }
-
             const profile = await playerService.createProfile({
-                userId: currentUserId,
+                userId: userId,
                 nickname: nickname,
-                roomId: roomId
+                roomId: roomId,
             });
 
             setProfile(profile);
-            await navigate({ to: '/' });
+            await navigate({to: '/'});
 
         } catch (err) {
             console.error('Failed to join:', err);
@@ -101,7 +91,7 @@ function JoinRoomPage() {
     if (isLoading) {
         return (
             <div className={'flex justify-center items-center h-screen bg-surface-primary'}>
-                <Loader2 className={'animate-spin text-brand-primary'} size={32} />
+                <Loader2 className={'animate-spin text-brand-primary'} size={32}/>
             </div>
         );
     }
@@ -130,21 +120,12 @@ function JoinRoomPage() {
                 </div>
 
                 <div className={'space-y-4'}>
-                    {!userId && (
-                        <div className={'bg-blue-500/10 text-blue-200 text-sm p-3 rounded-lg border border-blue-500/20 mb-4'}>
-                            Tip: Pokud už máš účet, přihlaš se v jiné záložce a obnov tuto stránku.
-                            {/* Ideally implement login here or link to login. 
-                                 For now, standardizing on the simplified auth model of this app. */}
-                        </div>
-                    )}
-
                     <div className={'relative'}>
                         <Input
                             label={'Tvoje přezdívka'}
                             placeholder={'Jan'}
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
-                        // If userId exists, maybe we allow changing nickname for this specific room? Yes.
                         />
                     </div>
 

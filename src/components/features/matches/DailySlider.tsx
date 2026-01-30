@@ -30,7 +30,7 @@ export const DailySlider: React.FC<DailySliderProps> = (props: DailySliderProps)
                         className={cn(
                             'flex items-center justify-center h-10 px-5 rounded-xl text-sm font-bold transition-all whitespace-nowrap',
                             isActive
-                                ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-sport-bg shadow-[0_0_15px_rgba(45,212,191,0.3)]'
+                                ? 'bg-linear-to-r from-brand-primary to-brand-secondary text-sport-bg shadow-[0_0_15px_rgba(45,212,191,0.3)]'
                                 : 'bg-sport-card text-text-secondary hover:text-white border border-sport-card-border'
                         )}
                     >

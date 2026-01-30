@@ -18,7 +18,7 @@ export const Card: React.FC<CardProps> = (props: CardProps): React.ReactElement 
     return (
         <div
             className={cn(
-                'rounded-[16px]',
+                'rounded-card',
                 variants[variant],
                 !noPadding && 'p-4',
                 className

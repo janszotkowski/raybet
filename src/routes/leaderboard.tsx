@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useProfileStore } from '../lib/store/profileStore';
 import { playerService } from '../lib/appwrite/services/playerService';
 import type { Profile } from '../lib/appwrite/types';
-import { Loader2, Medal, Trophy, Crown } from 'lucide-react';
+import { Crown, Loader2, Medal, Trophy } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Card } from '../components/ui/Card';
 
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/leaderboard')({
 });
 
 function LeaderboardPage() {
-    const { profile } = useProfileStore();
+    const {profile} = useProfileStore();
     const [profiles, setProfiles] = React.useState<Profile[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
@@ -45,7 +45,7 @@ function LeaderboardPage() {
     if (isLoading) {
         return (
             <div className={'flex justify-center py-20'}>
-                <Loader2 className={'w-8 h-8 animate-spin text-brand-primary'} />
+                <Loader2 className={'w-8 h-8 animate-spin text-brand-primary'}/>
             </div>
         );
     }
@@ -55,9 +55,9 @@ function LeaderboardPage() {
 
     // Helper for Rank Badge
     const getRankBadge = (rank: number) => {
-        if (rank === 1) return <div className={'h-8 w-8 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold shadow-[0_0_15px_rgba(250,204,21,0.5)]'}><Crown size={16} /></div>;
-        if (rank === 2) return <div className={'h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center text-black font-bold shadow-[0_0_10px_rgba(209,213,219,0.3)]'}><Medal size={16} /></div>;
-        if (rank === 3) return <div className={'h-8 w-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-bold shadow-[0_0_10px_rgba(217,119,6,0.3)]'}><Medal size={16} /></div>;
+        if (rank === 1) return <div className={'h-8 w-8 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold shadow-[0_0_15px_rgba(250,204,21,0.5)]'}><Crown size={16}/></div>;
+        if (rank === 2) return <div className={'h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center text-black font-bold shadow-[0_0_10px_rgba(209,213,219,0.3)]'}><Medal size={16}/></div>;
+        if (rank === 3) return <div className={'h-8 w-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-bold shadow-[0_0_10px_rgba(217,119,6,0.3)]'}><Medal size={16}/></div>;
         return <span className={'text-[17px] font-bold text-text-secondary w-8 text-center'}>{rank}</span>;
     };
 
@@ -66,7 +66,7 @@ function LeaderboardPage() {
             {/* Header */}
             <div className={'flex flex-col items-center pt-4 pb-6 px-4'}>
                 <div className={'h-12 w-12 rounded-2xl bg-sport-card border border-sport-card-border flex items-center justify-center mb-3 text-brand-primary shadow-lg shadow-brand-primary/10'}>
-                    <Trophy size={24} />
+                    <Trophy size={24}/>
                 </div>
                 <h1 className={'text-2xl font-bold text-white tracking-tight'}>Leaderboard</h1>
                 <p className={'text-sm text-text-secondary'}>Top performers in the pool</p>
@@ -85,7 +85,7 @@ function LeaderboardPage() {
                                 'flex items-center gap-4 px-4 py-3 border transition-transform active:scale-[0.99]',
                                 isMe
                                     ? 'bg-sport-card border-brand-primary'
-                                    : 'bg-sport-card/50 border-transparent'
+                                    : 'bg-sport-card/50 border-transparent',
                             )}
                             noPadding
                         >
@@ -97,7 +97,7 @@ function LeaderboardPage() {
                             {/* Avatar */}
                             <div className={cn(
                                 'h-11 w-11 rounded-full flex items-center justify-center text-[14px] font-bold overflow-hidden shrink-0 border-2',
-                                isMe ? 'border-brand-primary bg-brand-primary/10 text-brand-primary' : 'border-sport-card-border bg-sport-bg text-text-secondary'
+                                isMe ? 'border-brand-primary bg-brand-primary/10 text-brand-primary' : 'border-sport-card-border bg-sport-bg text-text-secondary',
                             )}
                             >
                                 {p.avatarUrl ? (
@@ -115,7 +115,7 @@ function LeaderboardPage() {
                             <div className={'flex-1 flex flex-col min-w-0'}>
                                 <span className={cn(
                                     'font-bold text-[16px] truncate',
-                                    isMe ? 'text-brand-primary' : 'text-white'
+                                    isMe ? 'text-brand-primary' : 'text-white',
                                 )}
                                 >
                                     {p.nickname}
@@ -123,7 +123,7 @@ function LeaderboardPage() {
                                 {isMe && <span className={'text-[10px] uppercase font-bold text-text-secondary tracking-widest'}>You</span>}
                                 {rank <= 3 && !isMe && <span className={cn(
                                     'text-[10px] font-bold',
-                                    rank === 1 ? 'text-yellow-400' : rank === 2 ? 'text-gray-300' : 'text-amber-600'
+                                    rank === 1 ? 'text-yellow-400' : rank === 2 ? 'text-gray-300' : 'text-amber-600',
                                 )}
                                                        >
                                     {rank === 1 ? 'Gold' : rank === 2 ? 'Silver' : 'Bronze'}

@@ -8,27 +8,23 @@ import { JoinRoomForm } from '../components/features/rooms/JoinRoomForm';
 import { MatchList } from '../components/features/matches/MatchList';
 import { Button } from '../components/ui/Button';
 import { Loader2 } from 'lucide-react';
-import { client } from '../lib/appwrite/client';
 
 export const Route = createFileRoute('/')({
     component: IndexPage,
 });
 
 function IndexPage() {
-    const { userId } = useAuthStore();
+    const { user } = useAuthStore();
     const { profile, setProfile } = useProfileStore();
     const [isLoading, setIsLoading] = React.useState(true);
-    const [view, setView] = React.useState<'landing' | 'create' | 'join'>('landing');
+    const [view, setView] = React.useState<'selection' | 'create' | 'join'>('selection');
 
     React.useEffect(() => {
         const checkProfile = async () => {
-            if (!userId) {
-                setIsLoading(false);
-                return;
-            }
+            if (!user?.$id) return;
 
             try {
-                const fetchedProfile = await playerService.getProfileByUserId(userId);
+                const fetchedProfile = await playerService.getProfileByUserId(user.$id);
                 if (fetchedProfile) {
                     setProfile(fetchedProfile);
                 }
@@ -40,7 +36,7 @@ function IndexPage() {
         };
 
         checkProfile();
-    }, [userId, setProfile]);
+    }, [user, setProfile]);
 
     if (isLoading) {
         return (
@@ -64,15 +60,15 @@ function IndexPage() {
         );
     }
 
-    // Not authenticated or no room -> Landing Page
+    // Authenticated but no room -> Onboarding
     return (
         <div className={'flex flex-col gap-6 pt-10 px-2'}>
             <div className={'text-center space-y-2'}>
-                <h1 className={'text-2xl font-bold text-brand-dark'}>Vítej v RayBet!</h1>
-                <p className={'text-slate-500 text-sm'}>Tipuj výsledky hokeje a vyhraj nad kolegy.</p>
+                <h1 className={'text-2xl font-bold text-brand-dark'}>Vítej, {user?.name}!</h1>
+                <p className={'text-slate-500 text-sm'}>Pro začátek se musíš připojit k místnosti.</p>
             </div>
 
-            {view === 'landing' && (
+            {view === 'selection' && (
                 <div className={'flex flex-col gap-4 mt-4'}>
                     <Button
                         variant={'primary'}
@@ -97,7 +93,7 @@ function IndexPage() {
                     <Button
                         variant={'ghost'}
                         size={'sm'}
-                        onClick={() => setView('landing')}
+                        onClick={() => setView('selection')}
                         className={'self-start -ml-2'}
                     >
                         ← Zpět
@@ -111,7 +107,7 @@ function IndexPage() {
                     <Button
                         variant={'ghost'}
                         size={'sm'}
-                        onClick={() => setView('landing')}
+                        onClick={() => setView('selection')}
                         className={'self-start -ml-2'}
                     >
                         ← Zpět
@@ -119,16 +115,6 @@ function IndexPage() {
                     <JoinRoomForm />
                 </div>
             )}
-
-            <div>
-                <button onClick={async () => {
-                    const result = await client.ping();
-                    console.log(result);
-                }}
-                >
-                    Ping
-                </button>
-            </div>
         </div>
     );
 }

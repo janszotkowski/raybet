@@ -14,9 +14,9 @@ export const Route = createFileRoute('/rooms')({
 });
 
 function RoomsPage() {
-    const { userId } = useAuthStore();
-    const { data: myRooms, isLoading: loadingMyRooms } = useMyRooms(userId);
-    const { data: ownedRooms, isLoading: loadingOwnedRooms } = useOwnedRooms(userId);
+    const {userId} = useAuthStore();
+    const {data: myRooms, isLoading: loadingMyRooms} = useMyRooms(userId);
+    const {data: ownedRooms, isLoading: loadingOwnedRooms} = useOwnedRooms(userId);
 
     const [shareModalOpen, setShareModalOpen] = React.useState(false);
     const [selectedRoom, setSelectedRoom] = React.useState<{ $id: string, name: string } | null>(null);
@@ -27,10 +27,10 @@ function RoomsPage() {
     };
 
     return (
-        <div className={'w-full max-w-[480px] mx-auto px-4 py-6 pb-24 space-y-8'}>
+        <div className={'w-full max-w-120 mx-auto px-4 py-6 pb-24 space-y-8'}>
             <div className={'flex items-center justify-between'}>
                 <h1 className={'text-2xl font-bold text-white'}>Moje Místnosti</h1>
-                <Link to={'/'} search={{ mode: 'create' }}>
+                <Link to={'/'} search={{mode: 'create'}}>
                     {/* Assuming there is a create flow or we can link to a create form. 
                 For now just a link to home if create is there, or maybe we create a create route.
                 The existing flow seems to vary. I'll just put a button that does nothing or links to home 
@@ -43,7 +43,7 @@ function RoomsPage() {
                         size={'sm'}
                         className={'gap-2'}
                     >
-                        <Plus className={'w-4 h-4'} />
+                        <Plus className={'w-4 h-4'}/>
                         Nová
                     </Button>
                 </Link>

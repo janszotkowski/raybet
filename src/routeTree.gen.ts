@@ -9,12 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SigninRouteImport } from './routes/signin'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JoinRoomIdRouteImport } from './routes/join/$roomId'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RoomsRoute = RoomsRouteImport.update({
   id: '/rooms',
   path: '/rooms',
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/profile': typeof ProfileRoute
   '/rooms': typeof RoomsRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/join/$roomId': typeof JoinRoomIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/profile': typeof ProfileRoute
   '/rooms': typeof RoomsRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/join/$roomId': typeof JoinRoomIdRoute
 }
 export interface FileRoutesById {
@@ -61,19 +77,37 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/profile': typeof ProfileRoute
   '/rooms': typeof RoomsRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/join/$roomId': typeof JoinRoomIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/leaderboard' | '/profile' | '/rooms' | '/join/$roomId'
+  fullPaths:
+    | '/'
+    | '/leaderboard'
+    | '/profile'
+    | '/rooms'
+    | '/signin'
+    | '/signup'
+    | '/join/$roomId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/leaderboard' | '/profile' | '/rooms' | '/join/$roomId'
+  to:
+    | '/'
+    | '/leaderboard'
+    | '/profile'
+    | '/rooms'
+    | '/signin'
+    | '/signup'
+    | '/join/$roomId'
   id:
     | '__root__'
     | '/'
     | '/leaderboard'
     | '/profile'
     | '/rooms'
+    | '/signin'
+    | '/signup'
     | '/join/$roomId'
   fileRoutesById: FileRoutesById
 }
@@ -82,11 +116,27 @@ export interface RootRouteChildren {
   LeaderboardRoute: typeof LeaderboardRoute
   ProfileRoute: typeof ProfileRoute
   RoomsRoute: typeof RoomsRoute
+  SigninRoute: typeof SigninRoute
+  SignupRoute: typeof SignupRoute
   JoinRoomIdRoute: typeof JoinRoomIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rooms': {
       id: '/rooms'
       path: '/rooms'
@@ -130,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   LeaderboardRoute: LeaderboardRoute,
   ProfileRoute: ProfileRoute,
   RoomsRoute: RoomsRoute,
+  SigninRoute: SigninRoute,
+  SignupRoute: SignupRoute,
   JoinRoomIdRoute: JoinRoomIdRoute,
 }
 export const routeTree = rootRouteImport

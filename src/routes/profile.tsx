@@ -14,19 +14,19 @@ export const Route = createFileRoute('/profile')({
 });
 
 const COUNTRIES = [
-    { code: 'CAN', name: 'Kanada' },
-    { code: 'USA', name: 'USA' },
-    { code: 'CZE', name: 'Česko' },
-    { code: 'SWE', name: 'Švédsko' },
-    { code: 'FIN', name: 'Finsko' },
-    { code: 'SVK', name: 'Slovensko' },
-    { code: 'SUI', name: 'Švýcarsko' },
-    { code: 'GER', name: 'Německo' },
+    {code: 'CAN', name: 'Kanada'},
+    {code: 'USA', name: 'USA'},
+    {code: 'CZE', name: 'Česko'},
+    {code: 'SWE', name: 'Švédsko'},
+    {code: 'FIN', name: 'Finsko'},
+    {code: 'SVK', name: 'Slovensko'},
+    {code: 'SUI', name: 'Švýcarsko'},
+    {code: 'GER', name: 'Německo'},
 ];
 
 function ProfilePage() {
-    const { userId, setUserId } = useAuthStore();
-    const { profile, setProfile } = useProfileStore();
+    const {userId, logout} = useAuthStore();
+    const {profile, setProfile} = useProfileStore();
     const navigate = useNavigate();
 
     const [avatarUrl, setAvatarUrl] = React.useState(profile?.avatarUrl || '');
@@ -36,7 +36,7 @@ function ProfilePage() {
 
     React.useEffect(() => {
         if (!userId) {
-            navigate({ to: '/' });
+            navigate({to: '/'});
         }
         if (profile) {
             setAvatarUrl(profile.avatarUrl || '');
@@ -90,10 +90,10 @@ function ProfilePage() {
         }
     };
 
-    const logout = () => {
-        setUserId(null);
+    const logoutProfile = () => {
+        logout();
         setProfile(null);
-        navigate({ to: '/' });
+        navigate({to: '/'});
     };
 
     if (!profile) return (
@@ -128,7 +128,7 @@ function ProfilePage() {
                             onClick={() => setShowAvatarInput(!showAvatarInput)}
                             className={'absolute bottom-1 right-1 h-8 w-8 bg-brand-primary text-sport-bg rounded-full flex items-center justify-center shadow-lg border-2 border-sport-bg'}
                         >
-                            <Camera size={14} />
+                            <Camera size={14}/>
                         </button>
                     </div>
                 </div>
@@ -187,11 +187,11 @@ function ProfilePage() {
                     'p-5 border relative overflow-hidden transition-all',
                     profile.isTournamentTipLocked
                         ? 'border-sport-card-border bg-sport-card/50'
-                        : 'border-brand-primary/50 bg-gradient-to-br from-sport-card to-brand-primary/5'
+                        : 'border-brand-primary/50 bg-linear-to-br from-sport-card to-brand-primary/5',
                 )}
                 >
                     <div className={'flex items-center gap-3 mb-4'}>
-                        <Trophy className={'text-brand-primary'} size={20} />
+                        <Trophy className={'text-brand-primary'} size={20}/>
                         <h3 className={'font-bold text-white text-lg'}>Tournament Winner</h3>
                     </div>
 
@@ -201,7 +201,7 @@ function ProfilePage() {
                         <select
                             className={cn(
                                 'w-full h-12 rounded-xl bg-sport-bg border px-4 text-sm font-bold text-white focus:outline-none focus:border-brand-primary appearance-none transition-colors',
-                                profile.isTournamentTipLocked ? 'border-transparent opacity-50 cursor-not-allowed' : 'border-sport-card-border hover:border-text-secondary'
+                                profile.isTournamentTipLocked ? 'border-transparent opacity-50 cursor-not-allowed' : 'border-sport-card-border hover:border-text-secondary',
                             )}
                             value={winnerTip}
                             onChange={(e) => setWinnerTip(e.target.value)}
@@ -213,7 +213,7 @@ function ProfilePage() {
                             ))}
                         </select>
                         <div className={'absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary'}>
-                            {profile.isTournamentTipLocked ? <Lock size={16} /> : <div className={'w-2 h-2 border-r-2 border-b-2 border-current rotate-45'} />}
+                            {profile.isTournamentTipLocked ? <Lock size={16}/> : <div className={'w-2 h-2 border-r-2 border-b-2 border-current rotate-45'}/>}
                         </div>
                     </div>
 
@@ -231,7 +231,7 @@ function ProfilePage() {
 
                     {profile.isTournamentTipLocked && (
                         <div className={'mt-4 flex items-center gap-2 text-xs text-text-secondary'}>
-                            <Medal size={14} /> Tip is locked
+                            <Medal size={14}/> Tip is locked
                         </div>
                     )}
                 </Card>
@@ -242,7 +242,7 @@ function ProfilePage() {
                             onClick={handleLockTip}
                             className={'text-xs text-text-secondary hover:text-red-500 transition-colors flex items-center gap-1 mx-auto'}
                         >
-                            <Lock size={12} /> Lock Prediction Permanently
+                            <Lock size={12}/> Lock Prediction Permanently
                         </button>
                     </div>
                 )}
@@ -250,10 +250,10 @@ function ProfilePage() {
 
             <div className={'px-4 mt-6 mb-4'}>
                 <button
-                    onClick={logout}
+                    onClick={logoutProfile}
                     className={'w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-sport-card text-text-secondary text-sm font-bold hover:bg-sport-card/80 hover:text-white transition-colors'}
                 >
-                    <LogOut size={16} />
+                    <LogOut size={16}/>
                     Log Out
                 </button>
             </div>
