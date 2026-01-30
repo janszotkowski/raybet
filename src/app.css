@@ -1,1 +1,76 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-brand-primary: #2dd4bf;
+  /* Teal 400 */
+  --color-brand-secondary: #06b6d4;
+  /* Cyan 500 */
+  --color-brand-gradient-start: #2dd4bf;
+  --color-brand-gradient-end: #06b6d4;
+
+  --color-sport-bg: #0f172a;
+  /* Slate 900 - Deep Navy */
+  --color-sport-card: #1e293b;
+  /* Slate 800 */
+  --color-sport-card-border: #334155;
+  /* Slate 700 */
+
+  --color-text-primary: #f8fafc;
+  /* Slate 50 */
+  --color-text-secondary: #94a3b8;
+  /* Slate 400 */
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --radius-card: 16px;
+  --radius-button: 12px;
+}
+
+/* Global Resets */
+:root {
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #0f172a;
+  /* Match --color-sport-bg */
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Custom Utilities */
+.sport-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary;
+}
+
+.sport-gradient-bg {
+  @apply bg-gradient-to-r from-brand-primary to-brand-secondary;
+}
+
+/* Scrollbar hiding */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

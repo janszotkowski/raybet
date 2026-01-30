@@ -8,7 +8,7 @@ Layout: Musí to být jednotné pro mobil i web. Vycentrovaný kontejner pro mob
 
 **Registrace a login page**
 
-Tahle část ve figme není. Jako db použít https://appwrite.io/ nebo https://supabase.com/ nebo https://pocketbase.io/ (nechám na mistrech v oboru)
+Tahle část ve figme není. Jako db použít https://appwrite.io/
 
 Registrace, Login a systém Místností (Rooms)
 Kromě samotného profilu a zápasů musíme vyřešit vstup uživatele do aplikace. Základem je, že každý hráč musí být v nějaké "Room", aby mohl soutěžit s ostatními.
@@ -21,9 +21,9 @@ Pod tím musí být výrazné pole: "Máš kód místnosti? Vlož ho zde". Po za
 
 2. Proces po registraci (Onboarding) Pokud se uživatel zaregistruje napřímo (ne přes pozvánku), musí mít na výběr dvě cesty:
 
-Vytvořit novou místnost: Uživatel zadá název (např. "IT Oddělení - Tipovačka") a aplikace mu vygeneruje unikátní 6místné ID (např. #ZOH2026-XyZ).
+Vytvořit novou místnost: Uživatel zadá název (např. "IT Oddělení - Tipovačka") a aplikace mu vygeneruje unikátní uuid.
 
-Připojit se k existující místnosti: Ruční zadání ID kódu, který dostal od kolegy.
+Vygeneruje QR kód pro pripojeni.
 
 3. Správa místnosti a pozvánky
 

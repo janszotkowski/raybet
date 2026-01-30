@@ -26,10 +26,14 @@ export const Route = createRootRoute({
     component: RootComponent,
 })
 
+import { MainLayout } from '../components/layout/MainLayout'
+
 function RootComponent() {
     return (
         <RootDocument>
-            <Outlet />
+            <MainLayout>
+                <Outlet />
+            </MainLayout>
         </RootDocument>
     )
 }
