@@ -26,7 +26,7 @@ type MainLayoutProps = {
 
 export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): React.ReactElement => {
     return (
-        <div className={'w-full h-full max-w-[480px] bg-sport-bg relative flex flex-col sm:border-x sm:border-sport-card-border overflow-hidden shadow-2xl'}>
+        <div className={'w-full h-full mx-auto max-w-120 bg-sport-bg relative flex flex-col sm:border-x sm:border-sport-card-border overflow-hidden shadow-2xl'}>
             {/* Header */}
             <header className={'shrink-0 pt-[env(safe-area-inset-top)] bg-sport-bg/95 backdrop-blur-sm z-30 transition-all duration-200'}>
                 <div className={'h-16 flex items-center justify-center relative'}>
