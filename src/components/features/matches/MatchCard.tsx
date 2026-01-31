@@ -34,9 +34,9 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
     const [isSaving, setIsSaving] = React.useState(false);
     const [isEditMode, setIsEditMode] = React.useState(false);
 
-    const isLive = match.status === 'live';
-    const isFinished = match.status === 'finished';
-    const isLocked = isLive || isFinished;
+    const isLive = match.status === 'in_progress';
+    const isFinished = match.status === 'completed';
+    const isLocked = isLive || isFinished || match.status === 'canceled';
 
     // Auto-enter edit mode if not locked and no prediction
     React.useEffect(() => {

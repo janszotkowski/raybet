@@ -5,7 +5,7 @@ export type Room = Models.Document & {
     ownerId: string;
 };
 
-export type MatchStatus = 'scheduled' | 'live' | 'finished';
+export type MatchStatus = 'scheduled' | 'in_progress' | 'completed' | 'canceled';
 
 export type Match = Models.Document & {
     externalId: string;
