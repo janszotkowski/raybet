@@ -7,6 +7,11 @@ const THESPORTSDB_V1_BASE_URL = 'https://www.thesportsdb.com/api/v1/json';
 const DEFAULT_LEAGUE_ID = '4380';
 
 export default async ({ req, res, log, error }) => {
+    log('Spouštím funkci syncMatches')
+    log(process.env.APPWRITE_FUNCTION_API_ENDPOINT);
+    log(process.env.APPWRITE_FUNCTION_PROJECT_ID);
+    log(`Klíč začíná na: ${process.env.APPWRITE_API_KEY ? process.env.APPWRITE_API_KEY.substring(0, 4) : 'NENALEZEN'}`);
+
     // 1. Initialize Appwrite Client
     const client = new Client()
         .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
@@ -63,9 +68,9 @@ export default async ({ req, res, log, error }) => {
             // Status mapping
             let status = 'scheduled';
             if (event.strStatus === 'Match Finished' || event.strStatus === 'FT') {
-                status = 'finished';
+                status = 'completed';
             } else if (event.strStatus === 'Live' || event.strStatus === 'In Progress') {
-                status = 'live';
+                status = 'in_progress';
             }
 
             const homeScore = event.intHomeScore ? parseInt(event.intHomeScore) : null;
