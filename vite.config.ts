@@ -1,4 +1,5 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js'
+import path from 'path';
 // vite.config.ts
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
@@ -20,4 +21,9 @@ export default defineConfig({
         viteReact(),
         tailwindcss(),
     ],
+    resolve: {
+        alias: {
+            appwrite: path.resolve(__dirname, 'node_modules/appwrite'),
+        },
+    },
 });
