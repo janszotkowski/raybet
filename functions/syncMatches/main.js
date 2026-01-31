@@ -76,6 +76,9 @@ export default async ({ req, res, log, error }) => {
             const homeScore = event.intHomeScore ? parseInt(event.intHomeScore) : null;
             const awayScore = event.intAwayScore ? parseInt(event.intAwayScore) : null;
 
+            const homeTeamBadge = event.strHomeTeamBadge;
+            const awayTeamBadge = event.strAwayTeamBadge;
+
             // Check if exists
             const existingMatches = await db.listDocuments(
                 DATABASE_ID,
@@ -87,7 +90,12 @@ export default async ({ req, res, log, error }) => {
                 const doc = existingMatches.documents[0];
 
                 // Update if changed
-                if (doc.status !== status || doc.homeScore !== homeScore || doc.awayScore !== awayScore) {
+                if (doc.status !== status ||
+                    doc.homeScore !== homeScore ||
+                    doc.awayScore !== awayScore ||
+                    doc.homeTeamBadge !== homeTeamBadge ||
+                    doc.awayTeamBadge !== awayTeamBadge
+                ) {
                     await db.updateDocument(
                         DATABASE_ID,
                         COLLECTION_MATCHES,
@@ -97,7 +105,9 @@ export default async ({ req, res, log, error }) => {
                             homeScore,
                             awayScore,
                             date,
-                            leagueId: LEAGUE_ID
+                            leagueId: LEAGUE_ID,
+                            homeTeamBadge,
+                            awayTeamBadge
                         }
                     );
                     updatedCount++;
@@ -118,7 +128,9 @@ export default async ({ req, res, log, error }) => {
                         status,
                         homeScore,
                         awayScore,
-                        leagueId: LEAGUE_ID
+                        leagueId: LEAGUE_ID,
+                        homeTeamBadge,
+                        awayTeamBadge
                     }
                 );
                 createdCount++;

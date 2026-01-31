@@ -85,12 +85,18 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
             <div className={'flex items-center justify-between px-2'}>
                 {/* Home */}
                 <div className={'flex flex-col items-center gap-2 w-1/3'}>
-                    <div className={'h-10 w-14 shadow-lg rounded-[4px] overflow-hidden bg-gray-800 relative'}>
-                        <img
-                            src={getFlagUrl(match.homeTeam)}
-                            alt={match.homeTeam}
-                            className={'w-full h-full object-cover'}
-                        />
+                    <div className={'h-14 w-14 shadow-lg rounded-full overflow-hidden bg-gray-800 relative flex items-center justify-center border border-white/10'}>
+                        {match.homeTeamBadge ? (
+                            <img
+                                src={match.homeTeamBadge}
+                                alt={match.homeTeam}
+                                className={'w-full h-full object-contain p-1'}
+                            />
+                        ) : (
+                            <span className={'text-xl font-bold text-white/80'}>
+                                {match.homeTeam.split(' ').map(n => n[0]).join('').slice(0, 3)}
+                            </span>
+                        )}
                     </div>
                     <span className={'text-sm font-bold text-white text-center leading-tight'}>{match.homeTeam}</span>
                 </div>
@@ -140,12 +146,18 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
 
                 {/* Away */}
                 <div className={'flex flex-col items-center gap-2 w-1/3'}>
-                    <div className={'h-10 w-14 shadow-lg rounded-[4px] overflow-hidden bg-gray-800 relative'}>
-                        <img
-                            src={getFlagUrl(match.awayTeam)}
-                            alt={match.awayTeam}
-                            className={'w-full h-full object-cover'}
-                        />
+                    <div className={'h-14 w-14 shadow-lg rounded-full overflow-hidden bg-gray-800 relative flex items-center justify-center border border-white/10'}>
+                        {match.awayTeamBadge ? (
+                            <img
+                                src={match.awayTeamBadge}
+                                alt={match.awayTeam}
+                                className={'w-full h-full object-contain p-1'}
+                            />
+                        ) : (
+                            <span className={'text-xl font-bold text-white/80'}>
+                                {match.awayTeam.split(' ').map(n => n[0]).join('').slice(0, 3)}
+                            </span>
+                        )}
                     </div>
                     <span className={'text-sm font-bold text-white text-center leading-tight'}>{match.awayTeam}</span>
                 </div>
