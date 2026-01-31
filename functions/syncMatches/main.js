@@ -33,8 +33,8 @@ export default async ({ req, res, log, error }) => {
         // /eventspastleague.php?id=XXXX
 
         const [nextEventsRes, pastEventsRes] = await Promise.all([
-            axios.get(`${THESPORTSDB_V1_BASE_URL} /${API_KEY}/eventsnextleague.php ? id = ${LEAGUE_ID} `),
-            axios.get(`${THESPORTSDB_V1_BASE_URL} /${API_KEY}/eventspastleague.php ? id = ${LEAGUE_ID} `)
+            axios.get(`${THESPORTSDB_V1_BASE_URL}/${API_KEY}/eventsnextleague.php?id=${LEAGUE_ID}`),
+            axios.get(`${THESPORTSDB_V1_BASE_URL}/${API_KEY}/eventspastleague.php?id=${LEAGUE_ID}`)
         ]);
 
         const nextEvents = nextEventsRes.data.events || [];

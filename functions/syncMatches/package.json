@@ -2,7 +2,7 @@
     "name": "sync-matches",
     "version": "1.0.0",
     "description": "Appwrite function to sync matches from TheSportsDB",
-    "main": "src/main.js",
+    "main": "main.js",
     "type": "module",
     "dependencies": {
         "axios": "1.13.4",

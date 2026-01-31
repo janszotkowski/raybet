@@ -21,7 +21,7 @@ async function run() {
     // But to truly verify, let's try to run it.
 
     try {
-        const main = await import('./src/main.js');
+        const main = await import('./main.js');
 
         const req = {
             headers: {}
