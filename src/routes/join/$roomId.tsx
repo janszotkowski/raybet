@@ -33,7 +33,7 @@ function JoinRoomPage() {
                 // 1. Check if room exists
                 const room = await roomService.getRoom(roomId);
                 if (!room) {
-                    setError('Tato místnost neexistuje.');
+                    setError('This room does not exist.');
                     setIsLoading(false);
                     return;
                 }
@@ -56,7 +56,7 @@ function JoinRoomPage() {
                 }
             } catch (err) {
                 console.error(err);
-                setError('Nepodařilo se načíst informace o místnosti.');
+                setError('Failed to load room information.');
             } finally {
                 setIsLoading(false);
             }
@@ -82,7 +82,7 @@ function JoinRoomPage() {
 
         } catch (err) {
             console.error('Failed to join:', err);
-            setError('Nepodařilo se připojit k místnosti.');
+            setError('Failed to join the room.');
         } finally {
             setIsJoining(false);
         }
@@ -99,10 +99,10 @@ function JoinRoomPage() {
     if (error) {
         return (
             <div className={'flex flex-col items-center justify-center h-screen p-4 bg-surface-primary text-center space-y-4'}>
-                <h1 className={'text-2xl font-bold text-white'}>Chyba</h1>
+                <h1 className={'text-2xl font-bold text-white'}>Error</h1>
                 <p className={'text-status-error'}>{error}</p>
                 <Link to={'/'}>
-                    <Button variant={'secondary'}>Zpět na domovskou stránku</Button>
+                    <Button variant={'secondary'}>Back to homepage</Button>
                 </Link>
             </div>
         );
@@ -112,18 +112,18 @@ function JoinRoomPage() {
         <div className={'min-h-screen bg-surface-primary flex items-center justify-center p-4'}>
             <div className={'w-full max-w-md bg-surface-secondary/30 p-8 rounded-2xl border border-border-primary/50 backdrop-blur-sm space-y-6'}>
                 <div className={'text-center space-y-2'}>
-                    <span className={'text-xs font-bold text-brand-primary uppercase tracking-widest'}>Pozvánka</span>
-                    <h1 className={'text-3xl font-bold text-white'}>Připoj se do hry!</h1>
+                    <span className={'text-xs font-bold text-brand-primary uppercase tracking-widest'}>Invitation</span>
+                    <h1 className={'text-3xl font-bold text-white'}>Join the game!</h1>
                     <p className={'text-text-secondary'}>
-                        Byl jsi pozván do místnosti <span className={'font-bold text-white'}>{roomName}</span>.
+                        You have been invited to the room <span className={'font-bold text-white'}>{roomName}</span>.
                     </p>
                 </div>
 
                 <div className={'space-y-4'}>
                     <div className={'relative'}>
                         <Input
-                            label={'Tvoje přezdívka'}
-                            placeholder={'Jan'}
+                            label={'Your nickname'}
+                            placeholder={'John'}
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
                         />
@@ -137,7 +137,7 @@ function JoinRoomPage() {
                         isLoading={isJoining}
                         disabled={!nickname.trim()}
                     >
-                        Vstoupit do místnosti
+                        Enter room
                     </Button>
                 </div>
             </div>

@@ -49,22 +49,22 @@ export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): R
                     <NavLink
                         to={'/profile'}
                         icon={<Users size={24}/>}
-                        label={'Profil'}
+                        label={'Profile'}
                     />
                     <NavLink
                         to={'/'}
                         icon={<LayoutDashboard size={24}/>}
-                        label={'Zápasy'}
+                        label={'Matches'}
                     />
                     <NavLink
                         to={'/rooms'}
                         icon={<Folder size={24}/>}
-                        label={'Místnosti'}
+                        label={'Rooms'}
                     />
                     <NavLink
                         to={'/leaderboard'}
                         icon={<Trophy size={24}/>}
-                        label={'Žebříček'}
+                        label={'Leaderboard'}
                     />
                 </div>
             </nav>

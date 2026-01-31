@@ -25,7 +25,7 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
         try {
             const room = await roomService.getRoom(roomCode);
             if (!room) {
-                setError('Místnost s tímto kódem neexistuje.');
+                setError('Room with this code does not exist.');
                 setIsLoading(false);
                 return;
             }
@@ -45,7 +45,7 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
 
         } catch (err: any) {
             console.error('Failed to join room:', err);
-            setError('Nepodařilo se připojit k místnosti.');
+            setError('Failed to join the room.');
         } finally {
             setIsLoading(false);
         }
@@ -54,20 +54,20 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
     return (
         <div className={'flex flex-col gap-6'}>
             <div className={'space-y-1'}>
-                <h2 className={'text-[28px] font-bold text-white tracking-tight'}>Vítej zpět!</h2>
-                <p className={'text-[17px] text-text-secondary'}>Připoj se ke hře s kolegy.</p>
+                <h2 className={'text-[28px] font-bold text-white tracking-tight'}>Welcome back!</h2>
+                <p className={'text-[17px] text-text-secondary'}>Join the game with colleagues.</p>
             </div>
 
             <div className={'space-y-4'}>
                 <div className={'space-y-2'}>
                     <Input
-                        label={'Přezdívka'}
-                        placeholder={'Jan'}
+                        label={'Nickname'}
+                        placeholder={'John'}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                     />
                     <Input
-                        label={'Kód'}
+                        label={'Code'}
                         placeholder={'RAY-123'}
                         value={roomCode}
                         onChange={(e) => setRoomCode(e.target.value)}
@@ -83,7 +83,7 @@ export const JoinRoomForm: React.FC = (): React.ReactElement => {
                         isLoading={isLoading}
                         disabled={!roomCode || !nickname}
                     >
-                        Vstoupit do hry
+                        Enter game
                     </Button>
                 </div>
             </div>

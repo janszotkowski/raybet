@@ -44,7 +44,7 @@ function SignUpPage() {
             }
         } catch (err: unknown) {
             console.error('Sign up failed', err);
-            setError('Registrace se nezdařila. Zkuste to prosím znovu.');
+            setError('Registration failed. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -53,15 +53,15 @@ function SignUpPage() {
     return (
         <div className={'flex flex-col items-center justify-center min-h-[80vh] px-4 space-y-8'}>
             <div className={'text-center space-y-2'}>
-                <h1 className={'text-3xl font-bold text-white'}>Vytvořit účet</h1>
-                <p className={'text-text-secondary'}>Zaregistruj se a začni tipovat</p>
+                <h1 className={'text-3xl font-bold text-white'}>Create Account</h1>
+                <p className={'text-text-secondary'}>Sign up and start predicting</p>
             </div>
 
             <form onSubmit={handleSignUp} className={'w-full max-w-sm space-y-4'}>
                 <Input
-                    label={'Jméno'}
+                    label={'Name'}
                     type={'text'}
-                    placeholder={'Jan Novák'}
+                    placeholder={'John Doe'}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -69,13 +69,13 @@ function SignUpPage() {
                 <Input
                     label={'Email'}
                     type={'email'}
-                    placeholder={'jan@example.com'}
+                    placeholder={'john@example.com'}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
                 <Input
-                    label={'Heslo'}
+                    label={'Password'}
                     type={'password'}
                     placeholder={'••••••••'}
                     value={password}
@@ -93,18 +93,18 @@ function SignUpPage() {
                     disabled={isLoading}
                     type={'submit'}
                 >
-                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Zaregistrovat se'}
+                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Sign Up'}
                 </Button>
             </form>
 
             <p className={'text-text-secondary text-sm'}>
-                Už máš účet?{' '}
+                Already have an account?{' '}
                 <Link
                     to={'/signin'}
                     className={'text-brand-primary hover:underline font-medium'}
                     search={{redirect: search.redirect || undefined}}
                 >
-                    Přihlaš se
+                    Sign In
                 </Link>
             </p>
         </div>

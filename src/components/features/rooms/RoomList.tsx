@@ -14,7 +14,7 @@ export const RoomList: React.FC<RoomListProps> = (props: RoomListProps): React.R
     if (!props.items?.length) {
         return (
             <div className={'bg-surface-secondary/50 rounded-xl p-8 text-center border border-border-primary/50'}>
-                <p className={'text-text-secondary'}>Žádné místnosti k zobrazení.</p>
+                <p className={'text-text-secondary'}>No rooms to display.</p>
             </div>
         );
     }
@@ -45,7 +45,7 @@ export const RoomList: React.FC<RoomListProps> = (props: RoomListProps): React.R
                     // I will display ID for now if Name is missing, but I should probably fix this.
 
                     const displayId = room?.$id || profile?.roomId || 'Unknown';
-                    const displayName = room?.name || (profile as any)?.room?.name || `Místnost ${displayId.substring(0, 5)}...`;
+                    const displayName = room?.name || (profile as any)?.room?.name || `Room ${displayId.substring(0, 5)}...`;
 
                     return (
                         <div
@@ -58,7 +58,7 @@ export const RoomList: React.FC<RoomListProps> = (props: RoomListProps): React.R
                             <div className={'z-10'}>
                                 <h4 className={'font-bold text-white text-lg tracking-tight'}>{displayName}</h4>
                                 <span className={'text-xs text-brand-primary uppercase tracking-widest font-bold'}>
-                                    {props.type === 'owned' ? 'ADMIN' : 'ČLEN'}
+                                    {props.type === 'owned' ? 'ADMIN' : 'MEMBER'}
                                 </span>
                             </div>
 
@@ -67,10 +67,10 @@ export const RoomList: React.FC<RoomListProps> = (props: RoomListProps): React.R
                                 size={'sm'}
                                 onClick={() => props.onShare(room || { $id: profile?.roomId, name: displayName })}
                                 className={'z-10 shrink-0 border-sport-card-border/50 bg-sport-card hover:bg-sport-card/80'}
-                                title={'Sdílet místnost'}
+                                title={'Share room'}
                             >
                                 <Share2 className={'w-4 h-4 text-brand-primary mr-2'} />
-                                <span className={'text-xs font-bold text-white'}>Sdílet</span>
+                                <span className={'text-xs font-bold text-white'}>Share</span>
                             </Button>
                         </div>
                     );

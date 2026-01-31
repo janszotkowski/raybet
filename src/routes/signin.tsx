@@ -42,7 +42,7 @@ function SignInPage() {
             }
         } catch (err: unknown) {
             console.error('Sign in failed', err);
-            setError('Přihlášení se nezdařilo. Zkontrolujte své údaje.');
+            setError('Sign in failed. Please check your credentials.');
         } finally {
             setIsLoading(false);
         }
@@ -51,21 +51,21 @@ function SignInPage() {
     return (
         <div className={'flex flex-col items-center justify-center min-h-[80vh] px-4 space-y-8'}>
             <div className={'text-center space-y-2'}>
-                <h1 className={'text-3xl font-bold text-white'}>Vítej zpět</h1>
-                <p className={'text-text-secondary'}>Přihlaš se do svého účtu</p>
+                <h1 className={'text-3xl font-bold text-white'}>Welcome Back</h1>
+                <p className={'text-text-secondary'}>Sign in to your account</p>
             </div>
 
             <form onSubmit={handleSignIn} className={'w-full max-w-sm space-y-4'}>
                 <Input
                     label={'Email'}
                     type={'email'}
-                    placeholder={'jan@example.com'}
+                    placeholder={'john@example.com'}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
                 <Input
-                    label={'Heslo'}
+                    label={'Password'}
                     type={'password'}
                     placeholder={'••••••••'}
                     value={password}
@@ -82,18 +82,18 @@ function SignInPage() {
                     disabled={isLoading}
                     type={'submit'}
                 >
-                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Přihlásit se'}
+                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Sign In'}
                 </Button>
             </form>
 
             <p className={'text-text-secondary text-sm'}>
-                Nemáš ještě účet?{' '}
+                Do not have an account?{' '}
                 <Link
                     to={'/signup'}
                     className={'text-brand-primary hover:underline font-medium'}
                     search={{redirect: search.redirect || undefined}}
                 >
-                    Zaregistruj se
+                    Sign Up
                 </Link>
             </p>
         </div>

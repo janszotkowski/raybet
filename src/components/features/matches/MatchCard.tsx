@@ -18,8 +18,8 @@ const getFlagUrl = (teamName: string) => {
     // Using placeholder for now, ideally user would add actual flags
     // Example: https://flagcdn.com/w80/cz.png
     const codeMap: Record<string, string> = {
-        'Česko': 'cz', 'USA': 'us', 'Kanada': 'ca', 'Švédsko': 'se',
-        'Finsko': 'fi', 'Slovensko': 'sk', 'Německo': 'de', 'Švýcarsko': 'ch'
+        'Czech Republic': 'cz', 'USA': 'us', 'Canada': 'ca', 'Sweden': 'se',
+        'Finland': 'fi', 'Slovakia': 'sk', 'Germany': 'de', 'Switzerland': 'ch'
     };
     const code = codeMap[teamName] || 'xx';
     return `https://flagcdn.com/w80/${code}.png`;

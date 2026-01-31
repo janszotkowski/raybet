@@ -29,11 +29,11 @@ function RoomsPage() {
     return (
         <div className={'w-full max-w-120 mx-auto px-4 py-6 pb-24 space-y-8'}>
             <div className={'flex items-center justify-between'}>
-                <h1 className={'text-2xl font-bold text-white'}>Moje Místnosti</h1>
+                <h1 className={'text-2xl font-bold text-white'}>My Rooms</h1>
                 <Link to={'/'} search={{mode: 'create'}}>
-                    {/* Assuming there is a create flow or we can link to a create form. 
+                    {/* Assuming there is a create flow or we can link to a create form.
                 For now just a link to home if create is there, or maybe we create a create route.
-                The existing flow seems to vary. I'll just put a button that does nothing or links to home 
+                The existing flow seems to vary. I'll just put a button that does nothing or links to home
                 if that's where creation happens based on task context.
                 Actually README says "Create Room" is part of onboarding or explicit action.
                 Creation form component exists. I'll assume we can navigate to a create page.
@@ -44,7 +44,7 @@ function RoomsPage() {
                         className={'gap-2'}
                     >
                         <Plus className={'w-4 h-4'}/>
-                        Nová
+                        New
                     </Button>
                 </Link>
             </div>
@@ -53,10 +53,10 @@ function RoomsPage() {
                 {/* Managed Rooms */}
                 <section>
                     {loadingOwnedRooms ? (
-                        <div className={'text-text-secondary'}>Načítám...</div>
+                        <div className={'text-text-secondary'}>Loading...</div>
                     ) : (
                         <RoomList
-                            title={'Spravované místnosti'}
+                            title={'Managed Rooms'}
                             items={ownedRooms || []}
                             type={'owned'}
                             onShare={handleShare}
@@ -67,10 +67,10 @@ function RoomsPage() {
                 {/* Joined Rooms */}
                 <section>
                     {loadingMyRooms ? (
-                        <div className={'text-text-secondary'}>Načítám...</div>
+                        <div className={'text-text-secondary'}>Loading...</div>
                     ) : (
                         <RoomList
-                            title={'Místnosti, kde hraju'}
+                            title={'Rooms I Play In'}
                             items={myRooms || []}
                             type={'joined'}
                             onShare={handleShare}

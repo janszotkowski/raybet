@@ -21,7 +21,7 @@ function IndexPage() {
         return (
             <div className={'flex flex-col gap-4 -mx-4'}>
                 <div className={'bg-brand-dark px-4 py-2'}>
-                    <h1 className={'text-white font-bold text-lg'}>Zápasy</h1>
+                    <h1 className={'text-white font-bold text-lg'}>Matches</h1>
                 </div>
                 <div className={'px-4'}>
                     <MatchList/>
@@ -34,8 +34,8 @@ function IndexPage() {
     return (
         <div className={'flex flex-col gap-6 pt-10 px-2'}>
             <div className={'text-center space-y-2'}>
-                <h1 className={'text-2xl font-bold text-brand-dark'}>Vítej, {user?.name}!</h1>
-                <p className={'text-slate-500 text-sm'}>Pro začátek se musíš připojit k místnosti.</p>
+                <h1 className={'text-2xl font-bold text-brand-dark'}>Welcome, {user?.name}!</h1>
+                <p className={'text-slate-500 text-sm'}>To get started, you need to join a room.</p>
             </div>
 
             {view === 'selection' && (
@@ -45,15 +45,15 @@ function IndexPage() {
                         size={'lg'}
                         onClick={() => setView('join')}
                     >
-                        Mám kód místnosti
+                        I have a room code
                     </Button>
                     <div className={'relative flex py-2 items-center'}>
                         <div className={'grow border-t border-slate-300'}></div>
-                        <span className={'shrink mx-4 text-slate-400 text-xs'}>NEBO</span>
+                        <span className={'shrink mx-4 text-slate-400 text-xs'}>OR</span>
                         <div className={'grow border-t border-slate-300'}></div>
                     </div>
                     <Button variant={'outline'} onClick={() => setView('create')}>
-                        Vytvořit novou místnost
+                        Create a new room
                     </Button>
                 </div>
             )}
@@ -66,7 +66,7 @@ function IndexPage() {
                         onClick={() => setView('selection')}
                         className={'self-start -ml-2'}
                     >
-                        ← Zpět
+                        ← Back
                     </Button>
                     <CreateRoomForm/>
                 </div>
@@ -80,7 +80,7 @@ function IndexPage() {
                         onClick={() => setView('selection')}
                         className={'self-start -ml-2'}
                     >
-                        ← Zpět
+                        ← Back
                     </Button>
                     <JoinRoomForm/>
                 </div>

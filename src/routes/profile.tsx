@@ -14,14 +14,14 @@ export const Route = createFileRoute('/profile')({
 });
 
 const COUNTRIES = [
-    {code: 'CAN', name: 'Kanada'},
+    {code: 'CAN', name: 'Canada'},
     {code: 'USA', name: 'USA'},
-    {code: 'CZE', name: 'Česko'},
-    {code: 'SWE', name: 'Švédsko'},
-    {code: 'FIN', name: 'Finsko'},
-    {code: 'SVK', name: 'Slovensko'},
-    {code: 'SUI', name: 'Švýcarsko'},
-    {code: 'GER', name: 'Německo'},
+    {code: 'CZE', name: 'Czech Republic'},
+    {code: 'SWE', name: 'Sweden'},
+    {code: 'FIN', name: 'Finland'},
+    {code: 'SVK', name: 'Slovakia'},
+    {code: 'SUI', name: 'Switzerland'},
+    {code: 'GER', name: 'Germany'},
 ];
 
 function ProfilePage() {

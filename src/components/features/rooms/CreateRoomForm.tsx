@@ -45,21 +45,21 @@ export const CreateRoomForm: React.FC = (): React.ReactElement => {
     return (
         <div className={'flex flex-col gap-6'}>
             <div className={'space-y-1'}>
-                <h2 className={'text-[28px] font-bold text-white tracking-tight'}>Vytvořit hru</h2>
-                <p className={'text-[17px] text-text-secondary'}>Založ novou místnost pro kolegy.</p>
+                <h2 className={'text-[28px] font-bold text-white tracking-tight'}>Create Game</h2>
+                <p className={'text-[17px] text-text-secondary'}>Start a new room for your colleagues.</p>
             </div>
 
             <div className={'space-y-4'}>
                 <div className={'space-y-2'}>
                     <Input
-                        label={'Přezdívka'}
-                        placeholder={'Jan'}
+                        label={'Nickname'}
+                        placeholder={'John'}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                     />
                     <Input
-                        label={'Název'}
-                        placeholder={'IT Oddělení'}
+                        label={'Name'}
+                        placeholder={'IT Department'}
                         value={roomName}
                         onChange={(e) => setRoomName(e.target.value)}
                     />
@@ -74,7 +74,7 @@ export const CreateRoomForm: React.FC = (): React.ReactElement => {
                         isLoading={isLoading}
                         disabled={!roomName || !nickname}
                     >
-                        Vytvořit a vstoupit
+                        Create and Enter
                     </Button>
                 </div>
             </div>

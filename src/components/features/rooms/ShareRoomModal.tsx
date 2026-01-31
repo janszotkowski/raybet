@@ -36,7 +36,7 @@ export const ShareRoomModal: React.FC<ShareRoomModalProps> = (props: ShareRoomMo
             >
                 {/* Header */}
                 <div className={'flex items-center justify-between p-4 border-b border-border-primary/50'}>
-                    <h3 className={'font-bold text-white text-lg'}>Pozvat kolegy</h3>
+                    <h3 className={'font-bold text-white text-lg'}>Invite Colleagues</h3>
                     <Button
                         variant={'ghost'}
                         size={'icon'}
@@ -48,7 +48,7 @@ export const ShareRoomModal: React.FC<ShareRoomModalProps> = (props: ShareRoomMo
 
                 <div className={'p-6 space-y-6 flex flex-col items-center'}>
                     <div className={'text-center space-y-1'}>
-                        <p className={'text-text-secondary text-sm'}>Místnost</p>
+                        <p className={'text-text-secondary text-sm'}>Room</p>
                         <h4 className={'text-xl font-bold text-white'}>{props.roomName}</h4>
                     </div>
 
@@ -65,7 +65,7 @@ export const ShareRoomModal: React.FC<ShareRoomModalProps> = (props: ShareRoomMo
                     {/* Link Section */}
                     <div className={'w-full space-y-2'}>
                         <label className={'text-xs font-semibold text-text-secondary uppercase tracking-wider'}>
-                            Odkaz pro sdílení
+                            Share Link
                         </label>
                         <div className={'flex gap-2'}>
                             <div className={'flex-1 bg-surface-secondary rounded-lg px-3 py-2 text-sm text-text-primary truncate font-mono border border-border-primary/50'}>
@@ -84,7 +84,7 @@ export const ShareRoomModal: React.FC<ShareRoomModalProps> = (props: ShareRoomMo
 
                     <div className={'w-full text-center'}>
                         <p className={'text-xs text-text-tertiary'}>
-                            Kód místnosti: <span className={'font-mono text-text-secondary'}>{props.roomId}</span>
+                            Room Code: <span className={'font-mono text-text-secondary'}>{props.roomId}</span>
                         </p>
                     </div>
                 </div>
