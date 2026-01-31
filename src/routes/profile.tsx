@@ -8,25 +8,26 @@ import { playerService } from '../lib/appwrite/services/playerService';
 import { useAuthStore } from '../lib/store/authStore';
 import { useProfileStore } from '../lib/store/profileStore';
 import { cn } from '../lib/utils';
+import * as m from '../paraglide/messages';
 
 export const Route = createFileRoute('/profile')({
     component: ProfilePage,
 });
 
 const COUNTRIES = [
-    {code: 'CAN', name: 'Canada'},
-    {code: 'USA', name: 'USA'},
-    {code: 'CZE', name: 'Czech Republic'},
-    {code: 'SWE', name: 'Sweden'},
-    {code: 'FIN', name: 'Finland'},
-    {code: 'SVK', name: 'Slovakia'},
-    {code: 'SUI', name: 'Switzerland'},
-    {code: 'GER', name: 'Germany'},
+    { code: 'CAN', name: 'Canada' },
+    { code: 'USA', name: 'USA' },
+    { code: 'CZE', name: 'Czech Republic' },
+    { code: 'SWE', name: 'Sweden' },
+    { code: 'FIN', name: 'Finland' },
+    { code: 'SVK', name: 'Slovakia' },
+    { code: 'SUI', name: 'Switzerland' },
+    { code: 'GER', name: 'Germany' },
 ];
 
 function ProfilePage() {
-    const {userId, logout} = useAuthStore();
-    const {profile, setProfile} = useProfileStore();
+    const { userId, logout } = useAuthStore();
+    const { profile, setProfile } = useProfileStore();
     const navigate = useNavigate();
 
     const [avatarUrl, setAvatarUrl] = React.useState(profile?.avatarUrl || '');
@@ -36,7 +37,7 @@ function ProfilePage() {
 
     React.useEffect(() => {
         if (!userId) {
-            navigate({to: '/'});
+            navigate({ to: '/' });
         }
         if (profile) {
             setAvatarUrl(profile.avatarUrl || '');
@@ -82,7 +83,7 @@ function ProfilePage() {
         try {
             const updated = await playerService.setTournamentTip(profile.$id, winnerTip);
             setProfile(updated);
-            alert('Tip Saved');
+            alert(m.msg_tip_saved());
         } catch (err) {
             console.error('Failed to save tip', err);
         } finally {
@@ -93,12 +94,12 @@ function ProfilePage() {
     const logoutProfile = () => {
         logout();
         setProfile(null);
-        navigate({to: '/'});
+        navigate({ to: '/' });
     };
 
     if (!profile) return (
         <div className={'flex justify-center p-8'}>
-            <span className={'text-brand-primary animate-pulse'}>Loading Profile...</span>
+            <span className={'text-brand-primary animate-pulse'}>{m.loading_profile()}</span>
         </div>
     );
 
@@ -128,7 +129,7 @@ function ProfilePage() {
                             onClick={() => setShowAvatarInput(!showAvatarInput)}
                             className={'absolute bottom-1 right-1 h-8 w-8 bg-brand-primary text-sport-bg rounded-full flex items-center justify-center shadow-lg border-2 border-sport-bg'}
                         >
-                            <Camera size={14}/>
+                            <Camera size={14} />
                         </button>
                     </div>
                 </div>
@@ -137,7 +138,7 @@ function ProfilePage() {
 
                 <div className={'mt-2 px-6 py-2 bg-sport-card/50 rounded-xl border border-sport-card-border/50 backdrop-blur-md'}>
                     <span className={'text-3xl font-black text-brand-primary tracking-tight'}>{profile.totalPoints}</span>
-                    <span className={'text-xs text-text-secondary ml-2 font-bold uppercase'}>Total Points</span>
+                    <span className={'text-xs text-text-secondary ml-2 font-bold uppercase'}>{m.label_total_points()}</span>
                 </div>
             </div>
 
@@ -154,29 +155,29 @@ function ProfilePage() {
                         size={'sm'}
                         onClick={handleAvatarUpdate}
                         disabled={isSaving}
-                    >Save</Button>
+                    >{m.action_save()}</Button>
                 </div>
             )}
 
             {/* 2x2 Grid Stats Reference Style */}
             <div className={'px-4'}>
-                <h3 className={'text-sm font-bold text-white mb-3 ml-1'}>Performance Grid</h3>
+                <h3 className={'text-sm font-bold text-white mb-3 ml-1'}>{m.profile_perf_grid()}</h3>
                 <div className={'grid grid-cols-2 gap-3'}>
                     <Card className={'flex flex-col p-4 bg-sport-card/80 border-sport-card-border hover:border-brand-primary/30 transition-colors'}>
                         <span className={'text-2xl font-bold text-white'}>--</span>
-                        <span className={'text-xs text-text-secondary font-medium'}>Exact Scores</span>
+                        <span className={'text-xs text-text-secondary font-medium'}>{m.stat_exact_scores()}</span>
                     </Card>
                     <Card className={'flex flex-col p-4 bg-sport-card/80 border-sport-card-border hover:border-brand-primary/30 transition-colors'}>
                         <span className={'text-2xl font-bold text-white'}>--</span>
-                        <span className={'text-xs text-text-secondary font-medium'}>Goal Difference</span>
+                        <span className={'text-xs text-text-secondary font-medium'}>{m.stat_goal_diff()}</span>
                     </Card>
                     <Card className={'flex flex-col p-4 bg-sport-card/80 border-sport-card-border hover:border-brand-primary/30 transition-colors'}>
                         <span className={'text-2xl font-bold text-white'}>--</span>
-                        <span className={'text-xs text-text-secondary font-medium'}>Match Winner</span>
+                        <span className={'text-xs text-text-secondary font-medium'}>{m.stat_match_winner()}</span>
                     </Card>
                     <Card className={'flex flex-col p-4 bg-sport-card/80 border-sport-card-border hover:border-brand-primary/30 transition-colors'}>
                         <span className={'text-2xl font-bold text-white'}>--%</span>
-                        <span className={'text-xs text-text-secondary font-medium'}>Success Rate</span>
+                        <span className={'text-xs text-text-secondary font-medium'}>{m.stat_success_rate()}</span>
                     </Card>
                 </div>
             </div>
@@ -191,11 +192,11 @@ function ProfilePage() {
                 )}
                 >
                     <div className={'flex items-center gap-3 mb-4'}>
-                        <Trophy className={'text-brand-primary'} size={20}/>
-                        <h3 className={'font-bold text-white text-lg'}>Tournament Winner</h3>
+                        <Trophy className={'text-brand-primary'} size={20} />
+                        <h3 className={'font-bold text-white text-lg'}>{m.profile_tournament_winner()}</h3>
                     </div>
 
-                    <p className={'text-xs text-text-secondary mb-4'}>Pick your Gold Medalist before the tournament starts.</p>
+                    <p className={'text-xs text-text-secondary mb-4'}>{m.profile_pick_gold()}</p>
 
                     <div className={'relative'}>
                         <select
@@ -207,13 +208,13 @@ function ProfilePage() {
                             onChange={(e) => setWinnerTip(e.target.value)}
                             disabled={profile.isTournamentTipLocked}
                         >
-                            <option value={''}>Select a team...</option>
+                            <option value={''}>{m.profile_select_team()}</option>
                             {COUNTRIES.map(c => (
                                 <option key={c.code} value={c.code}>{c.name}</option>
                             ))}
                         </select>
                         <div className={'absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary'}>
-                            {profile.isTournamentTipLocked ? <Lock size={16}/> : <div className={'w-2 h-2 border-r-2 border-b-2 border-current rotate-45'}/>}
+                            {profile.isTournamentTipLocked ? <Lock size={16} /> : <div className={'w-2 h-2 border-r-2 border-b-2 border-current rotate-45'} />}
                         </div>
                     </div>
 
@@ -225,13 +226,13 @@ function ProfilePage() {
                             onClick={handleSaveTip}
                             disabled={!winnerTip || isSaving}
                         >
-                            Save Tip
+                            {m.action_save_tip()}
                         </Button>
                     )}
 
                     {profile.isTournamentTipLocked && (
                         <div className={'mt-4 flex items-center gap-2 text-xs text-text-secondary'}>
-                            <Medal size={14}/> Tip is locked
+                            <Medal size={14} /> {m.status_tip_locked()}
                         </div>
                     )}
                 </Card>
@@ -242,7 +243,7 @@ function ProfilePage() {
                             onClick={handleLockTip}
                             className={'text-xs text-text-secondary hover:text-red-500 transition-colors flex items-center gap-1 mx-auto'}
                         >
-                            <Lock size={12}/> Lock Prediction Permanently
+                            <Lock size={12} /> {m.action_lock_prediction()}
                         </button>
                     </div>
                 )}
@@ -253,8 +254,8 @@ function ProfilePage() {
                     onClick={logoutProfile}
                     className={'w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-sport-card text-text-secondary text-sm font-bold hover:bg-sport-card/80 hover:text-white transition-colors'}
                 >
-                    <LogOut size={16}/>
-                    Log Out
+                    <LogOut size={16} />
+                    {m.action_logout()}
                 </button>
             </div>
         </div>

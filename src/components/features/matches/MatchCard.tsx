@@ -1,10 +1,11 @@
 import { Clock, Lock } from 'lucide-react';
 import * as React from 'react';
-import { predictionService } from '../../../lib/appwrite/services/predictionService';
-import type { Match, Prediction } from '../../../lib/appwrite/types';
-import { useAuthStore } from '../../../lib/store/authStore';
-import { Button } from '../../ui/Button';
-import { Card } from '../../ui/Card';
+import * as m from '../../../paraglide/messages';
+import { predictionService } from '@/lib/appwrite/services/predictionService';
+import type { Match, Prediction } from '@/lib/appwrite/types';
+import { useAuthStore } from '@/lib/store/authStore';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 
 type MatchCardProps = {
     match: Match;
@@ -19,15 +20,15 @@ const getFlagUrl = (teamName: string) => {
     // Example: https://flagcdn.com/w80/cz.png
     const codeMap: Record<string, string> = {
         'Czech Republic': 'cz', 'USA': 'us', 'Canada': 'ca', 'Sweden': 'se',
-        'Finland': 'fi', 'Slovakia': 'sk', 'Germany': 'de', 'Switzerland': 'ch'
+        'Finland': 'fi', 'Slovakia': 'sk', 'Germany': 'de', 'Switzerland': 'ch',
     };
     const code = codeMap[teamName] || 'xx';
     return `https://flagcdn.com/w80/${code}.png`;
 };
 
 export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): React.ReactElement => {
-    const { match, existingPrediction, onPredictionUpdate } = props;
-    const { userId } = useAuthStore();
+    const {match, existingPrediction, onPredictionUpdate} = props;
+    const {userId} = useAuthStore();
 
     const [homeScore, setHomeScore] = React.useState<string>(existingPrediction?.homeScore?.toString() ?? '');
     const [awayScore, setAwayScore] = React.useState<string>(existingPrediction?.awayScore?.toString() ?? '');
@@ -56,7 +57,7 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
             if (existingPrediction) {
                 updated = await predictionService.updatePrediction(existingPrediction.$id, scoreHome, scoreAway);
             } else {
-                updated = await predictionService.createPrediction({ matchId: match.$id, userId: userId, homeScore: scoreHome, awayScore: scoreAway });
+                updated = await predictionService.createPrediction({matchId: match.$id, userId: userId, homeScore: scoreHome, awayScore: scoreAway});
             }
             onPredictionUpdate?.(updated);
             setIsEditMode(false);
@@ -73,12 +74,12 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
             <div className={'flex justify-between items-center text-xs font-medium text-text-secondary'}>
                 <div className={'flex items-center gap-1.5 bg-sport-bg/50 px-2 py-1 rounded-full'}>
                     {isLocked ? (
-                        <span className={'flex items-center gap-1 text-text-secondary'}><Lock size={12} /> {isFinished ? 'Finished' : 'Locked'}</span>
+                        <span className={'flex items-center gap-1 text-text-secondary'}><Lock size={12}/> {isFinished ? m.status_finished() : m.status_locked()}</span>
                     ) : (
-                        <span className={'flex items-center gap-1 text-brand-primary'}><Clock size={12} /> {new Date(match.date).toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}</span>
+                        <span className={'flex items-center gap-1 text-brand-primary'}><Clock size={12}/> {new Date(match.date).toLocaleTimeString('cs-CZ', {hour: '2-digit', minute: '2-digit'})}</span>
                     )}
                 </div>
-                {isLive && <span className={'text-red-500 font-bold animate-pulse'}>LIVE</span>}
+                {isLive && <span className={'text-red-500 font-bold animate-pulse'}>{m.status_live()}</span>}
             </div>
 
             {/* Teams Row */}
@@ -137,7 +138,7 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
                             {/* Real Score if finished */}
                             {isFinished && (
                                 <span className={'text-[10px] text-text-secondary mt-1 bg-sport-bg px-2 py-0.5 rounded-full'}>
-                                    Real: {match.homeScore}:{match.awayScore}
+                                    {m.label_real_score({score: `${match.homeScore}:${match.awayScore}`})}
                                 </span>
                             )}
                         </div>
@@ -174,7 +175,7 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
                         isLoading={isSaving}
                         className={'mt-2'}
                     >
-                        Save Tip
+                        {m.action_save_tip()}
                     </Button>
                 ) : (
                     <Button
@@ -184,14 +185,14 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
                         onClick={() => setIsEditMode(true)}
                         className={'mt-2 bg-sport-card/50 hover:bg-sport-card border-dashed border-sport-card-border'}
                     >
-                        {existingPrediction ? 'Edit Prediction' : 'Make Prediction'}
+                        {existingPrediction ? m.action_edit_prediction() : m.action_make_prediction()}
                     </Button>
                 )
             )}
 
             {/* Locked Visual */}
             {isLocked && existingPrediction && (
-                <div className={'absolute inset-0 pointer-events-none border border-transparent'} />
+                <div className={'absolute inset-0 pointer-events-none border border-transparent'}/>
             )}
         </Card>
     );

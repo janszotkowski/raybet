@@ -4,11 +4,12 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 import '../app.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MainLayout } from '../components/layout/MainLayout';
-import { useAuthStore } from '../lib/store/authStore';
+import { MainLayout } from '@/components/layout/MainLayout';
+import { useAuthStore } from '@/lib/store/authStore';
 import { Loader2 } from 'lucide-react';
-import { useProfileStore } from '../lib/store/profileStore';
-import { playerService } from '../lib/appwrite/services/playerService';
+import { useProfileStore } from '@/lib/store/profileStore';
+import { playerService } from '@/lib/appwrite/services/playerService';
+import { useLanguageStore } from '../lib/store/languageStore';
 
 export const Route = createRootRoute({
     head: () => ({
@@ -29,6 +30,22 @@ export const Route = createRootRoute({
 });
 
 const queryClient = new QueryClient();
+
+function LanguageInit() {
+    // Just by accessing the store, we trigger the persist/rehydrate logic if using persist middleware correctly options.
+    // But we also want to ensure the paraglide runtime tagging is synced if we use `setLanguageTag` inside store actions.
+    // The store initializes `language` from storage.
+    // AND the store has onRehydrateStorage which calls setLanguageTag.
+    // So just mounting this hook is enough to ensure the store is active.
+    // However, if we want to support html lang attribute:
+    const {language} = useLanguageStore();
+
+    React.useEffect(() => {
+        document.documentElement.lang = language;
+    }, [language]);
+
+    return null;
+}
 
 function AuthGuard({children}: { children: React.ReactNode }) {
     const {isAuthenticated, isLoading: isAuthLoading, checkAuth, user} = useAuthStore();
@@ -116,6 +133,7 @@ function RootComponent() {
     return (
         <RootDocument>
             <QueryClientProvider client={queryClient}>
+                <LanguageInit/>
                 <AuthGuard>
                     <MainLayout>
                         <Outlet/>

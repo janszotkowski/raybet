@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import * as React from 'react';
-import { useProfileStore } from '../lib/store/profileStore';
-import { playerService } from '../lib/appwrite/services/playerService';
-import type { Profile } from '../lib/appwrite/types';
+import { useProfileStore } from '@/lib/store/profileStore';
+import { playerService } from '@/lib/appwrite/services/playerService';
+import type { Profile } from '@/lib/appwrite/types';
 import { Crown, Loader2, Medal, Trophy } from 'lucide-react';
-import { cn } from '../lib/utils';
-import { Card } from '../components/ui/Card';
+import { cn } from '@/lib/utils';
+import { Card } from '@/components/ui/Card';
+import * as m from '../paraglide/messages';
 
 export const Route = createFileRoute('/leaderboard')({
     component: LeaderboardPage,
@@ -37,7 +38,7 @@ function LeaderboardPage() {
     if (!profile?.roomId) {
         return (
             <div className={'flex flex-col items-center justify-center min-h-[50vh] text-center p-8 text-text-secondary'}>
-                <p>Join a room to see the leaderboard.</p>
+                <p>{m.leaderboard_join_room()}</p>
             </div>
         );
     }
@@ -68,8 +69,8 @@ function LeaderboardPage() {
                 <div className={'h-12 w-12 rounded-2xl bg-sport-card border border-sport-card-border flex items-center justify-center mb-3 text-brand-primary shadow-lg shadow-brand-primary/10'}>
                     <Trophy size={24}/>
                 </div>
-                <h1 className={'text-2xl font-bold text-white tracking-tight'}>Leaderboard</h1>
-                <p className={'text-sm text-text-secondary'}>Top performers in the pool</p>
+                <h1 className={'text-2xl font-bold text-white tracking-tight'}>{m.leaderboard_title()}</h1>
+                <p className={'text-sm text-text-secondary'}>{m.leaderboard_subtitle()}</p>
             </div>
 
             {/* List */}
@@ -120,13 +121,13 @@ function LeaderboardPage() {
                                 >
                                     {p.nickname}
                                 </span>
-                                {isMe && <span className={'text-[10px] uppercase font-bold text-text-secondary tracking-widest'}>You</span>}
+                                {isMe && <span className={'text-[10px] uppercase font-bold text-text-secondary tracking-widest'}>{m.dict_you()}</span>}
                                 {rank <= 3 && !isMe && <span className={cn(
                                     'text-[10px] font-bold',
                                     rank === 1 ? 'text-yellow-400' : rank === 2 ? 'text-gray-300' : 'text-amber-600',
                                 )}
                                 >
-                                    {rank === 1 ? 'Gold' : rank === 2 ? 'Silver' : 'Bronze'}
+                                    {rank === 1 ? m.rank_gold() : rank === 2 ? m.rank_silver() : m.rank_bronze()}
                                 </span>}
                             </div>
 
@@ -135,7 +136,7 @@ function LeaderboardPage() {
                                 <span className={'font-black text-xl text-white tracking-tight'}>
                                     {p.totalPoints}
                                 </span>
-                                <span className={'text-[10px] font-bold text-text-secondary uppercase'}>Points</span>
+                                <span className={'text-[10px] font-bold text-text-secondary uppercase'}>{m.label_points()}</span>
                             </div>
                         </Card>
                     );
@@ -154,8 +155,8 @@ function LeaderboardPage() {
                             {profile.nickname.substring(0, 2).toUpperCase()}
                         </div>
                         <div className={'flex-1'}>
-                            <span className={'font-bold text-white block'}>{profile.nickname} (You)</span>
-                            <span className={'text-[11px] text-brand-primary'}>Your current position</span>
+                            <span className={'font-bold text-white block'}>{profile.nickname} ({m.dict_you()})</span>
+                            <span className={'text-[11px] text-brand-primary'}>{m.leaderboard_your_pos()}</span>
                         </div>
                         <span className={'font-black text-xl text-brand-primary'}>
                             {profile.totalPoints} <span className={'text-[10px] text-text-secondary font-bold'}>pts</span>

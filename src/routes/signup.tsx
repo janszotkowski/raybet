@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { authService } from '../lib/appwrite/services/authService';
-import { useAuthStore } from '../lib/store/authStore';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { authService } from '@/lib/appwrite/services/authService';
+import { useAuthStore } from '@/lib/store/authStore';
 import { Loader2 } from 'lucide-react';
+import * as m from '../paraglide/messages';
 
 export const Route = createFileRoute('/signup')({
     validateSearch: (search: Record<string, unknown>) => {
@@ -44,7 +45,7 @@ function SignUpPage() {
             }
         } catch (err: unknown) {
             console.error('Sign up failed', err);
-            setError('Registration failed. Please try again.');
+            setError(m.err_signup_failed());
         } finally {
             setIsLoading(false);
         }
@@ -53,13 +54,13 @@ function SignUpPage() {
     return (
         <div className={'flex flex-col items-center justify-center min-h-[80vh] px-4 space-y-8'}>
             <div className={'text-center space-y-2'}>
-                <h1 className={'text-3xl font-bold text-white'}>Create Account</h1>
-                <p className={'text-text-secondary'}>Sign up and start predicting</p>
+                <h1 className={'text-3xl font-bold text-white'}>{m.signup_title()}</h1>
+                <p className={'text-text-secondary'}>{m.signup_subtitle()}</p>
             </div>
 
             <form onSubmit={handleSignUp} className={'w-full max-w-sm space-y-4'}>
                 <Input
-                    label={'Name'}
+                    label={m.label_name()}
                     type={'text'}
                     placeholder={'John Doe'}
                     value={name}
@@ -67,7 +68,7 @@ function SignUpPage() {
                     required
                 />
                 <Input
-                    label={'Email'}
+                    label={m.label_email()}
                     type={'email'}
                     placeholder={'john@example.com'}
                     value={email}
@@ -75,7 +76,7 @@ function SignUpPage() {
                     required
                 />
                 <Input
-                    label={'Password'}
+                    label={m.label_password()}
                     type={'password'}
                     placeholder={'••••••••'}
                     value={password}
@@ -93,18 +94,18 @@ function SignUpPage() {
                     disabled={isLoading}
                     type={'submit'}
                 >
-                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Sign Up'}
+                    {isLoading ? <Loader2 className={'animate-spin'}/> : m.action_sign_up()}
                 </Button>
             </form>
 
             <p className={'text-text-secondary text-sm'}>
-                Already have an account?{' '}
+                {m.signup_have_account()}{' '}
                 <Link
                     to={'/signin'}
                     className={'text-brand-primary hover:underline font-medium'}
                     search={{redirect: search.redirect || undefined}}
                 >
-                    Sign In
+                    {m.action_sign_in()}
                 </Link>
             </p>
         </div>

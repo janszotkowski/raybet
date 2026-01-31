@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { authService } from '../lib/appwrite/services/authService';
-import { useAuthStore } from '../lib/store/authStore';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { authService } from '@/lib/appwrite/services/authService';
+import { useAuthStore } from '@/lib/store/authStore';
 import { Loader2 } from 'lucide-react';
+import * as m from '../paraglide/messages';
 
 export const Route = createFileRoute('/signin')({
     validateSearch: (search: Record<string, unknown>) => {
@@ -42,7 +43,7 @@ function SignInPage() {
             }
         } catch (err: unknown) {
             console.error('Sign in failed', err);
-            setError('Sign in failed. Please check your credentials.');
+            setError(m.err_signin_failed());
         } finally {
             setIsLoading(false);
         }
@@ -51,13 +52,13 @@ function SignInPage() {
     return (
         <div className={'flex flex-col items-center justify-center min-h-[80vh] px-4 space-y-8'}>
             <div className={'text-center space-y-2'}>
-                <h1 className={'text-3xl font-bold text-white'}>Welcome Back</h1>
-                <p className={'text-text-secondary'}>Sign in to your account</p>
+                <h1 className={'text-3xl font-bold text-white'}>{m.signin_title()}</h1>
+                <p className={'text-text-secondary'}>{m.signin_subtitle()}</p>
             </div>
 
             <form onSubmit={handleSignIn} className={'w-full max-w-sm space-y-4'}>
                 <Input
-                    label={'Email'}
+                    label={m.label_email()}
                     type={'email'}
                     placeholder={'john@example.com'}
                     value={email}
@@ -65,7 +66,7 @@ function SignInPage() {
                     required
                 />
                 <Input
-                    label={'Password'}
+                    label={m.label_password()}
                     type={'password'}
                     placeholder={'••••••••'}
                     value={password}
@@ -82,18 +83,18 @@ function SignInPage() {
                     disabled={isLoading}
                     type={'submit'}
                 >
-                    {isLoading ? <Loader2 className={'animate-spin'}/> : 'Sign In'}
+                    {isLoading ? <Loader2 className={'animate-spin'}/> : m.action_sign_in()}
                 </Button>
             </form>
 
             <p className={'text-text-secondary text-sm'}>
-                Do not have an account?{' '}
+                {m.signin_no_account()}{' '}
                 <Link
                     to={'/signup'}
                     className={'text-brand-primary hover:underline font-medium'}
                     search={{redirect: search.redirect || undefined}}
                 >
-                    Sign Up
+                    {m.action_sign_up()}
                 </Link>
             </p>
         </div>

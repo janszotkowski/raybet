@@ -8,7 +8,8 @@
     "dev": "vite dev",
     "build": "vite build",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "machine-translate": "inlang machine translate --project project.inlang"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +45,8 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.54.0",
     "vite": "7.3.1",
-    "vite-tsconfig-paths": "6.0.5"
+    "vite-tsconfig-paths": "6.0.5",
+    "@inlang/paraglide-js": "2.9.1",
+    "@inlang/cli": "3.0.0"
   }
 }

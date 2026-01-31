@@ -1,7 +1,9 @@
 import { Link } from '@tanstack/react-router';
 import { Folder, LayoutDashboard, Trophy, Users } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '../../lib/utils'; // Keep using cn
+import { cn } from '@/lib/utils';
+import * as m from '../../paraglide/messages';
+import { LanguageSwitcher } from '../features/language/LanguageSwitcher';
 
 // Simple stick icon component
 const HockeyIcon = ({className}: { className?: string }) => (
@@ -28,12 +30,18 @@ export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): R
         <div className={'w-full h-full mx-auto max-w-120 bg-sport-bg relative flex flex-col sm:border-x sm:border-sport-card-border overflow-hidden shadow-2xl'}>
             {/* Header */}
             <header className={'shrink-0 pt-[env(safe-area-inset-top)] bg-sport-bg/95 backdrop-blur-sm z-30 transition-all duration-200'}>
-                <div className={'h-16 flex items-center justify-center relative'}>
+                <div className={'h-16 flex items-center justify-between relative px-4'}>
+                    <div className={'w-10'}/>
                     {/* Logo Area */}
                     <div className={'flex flex-col items-center justify-center pt-2'}>
                         <div className={'h-10 w-10 rounded-xl border border-brand-primary/30 flex items-center justify-center bg-sport-card shadow-[0_0_15px_rgba(45,212,191,0.15)]'}>
                             <HockeyIcon className={'text-brand-primary w-6 h-6'}/>
                         </div>
+                    </div>
+
+                    {/* Language Switcher */}
+                    <div className={'flex items-center justify-end'}>
+                        <LanguageSwitcher/>
                     </div>
                 </div>
             </header>
@@ -49,22 +57,22 @@ export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): R
                     <NavLink
                         to={'/profile'}
                         icon={<Users size={24}/>}
-                        label={'Profile'}
+                        label={m.nav_profile()}
                     />
                     <NavLink
                         to={'/'}
                         icon={<LayoutDashboard size={24}/>}
-                        label={'Matches'}
+                        label={m.nav_matches()}
                     />
                     <NavLink
                         to={'/rooms'}
                         icon={<Folder size={24}/>}
-                        label={'Rooms'}
+                        label={m.nav_rooms()}
                     />
                     <NavLink
                         to={'/leaderboard'}
                         icon={<Trophy size={24}/>}
-                        label={'Leaderboard'}
+                        label={m.nav_leaderboard()}
                     />
                 </div>
             </nav>
