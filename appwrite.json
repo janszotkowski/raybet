@@ -5,9 +5,9 @@
         {
             "$id": "syncMatches",
             "name": "syncMatches",
-            "runtime": "node-18.0",
+            "runtime": "node-22.0",
             "path": "functions/syncMatches",
-            "entrypoint": "src/main.js",
+            "entrypoint": "main.js",
             "ignore": [
                 "node_modules",
                 ".gitignore"
