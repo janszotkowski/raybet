@@ -58,11 +58,11 @@ body {
 
 /* Custom Utilities */
 .sport-gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary;
+  @apply bg-clip-text text-transparent bg-linear-to-r from-brand-primary to-brand-secondary;
 }
 
 .sport-gradient-bg {
-  @apply bg-gradient-to-r from-brand-primary to-brand-secondary;
+  @apply bg-linear-to-r from-brand-primary to-brand-secondary;
 }
 
 /* Scrollbar hiding */

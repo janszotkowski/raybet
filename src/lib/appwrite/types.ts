@@ -15,6 +15,7 @@ export type Match = Models.Document & {
     homeScore: number | null;
     awayScore: number | null;
     status: MatchStatus;
+    leagueId: string;
 };
 
 export type Prediction = Models.Document & {

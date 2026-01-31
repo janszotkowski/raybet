@@ -1,0 +1,25 @@
+{
+    "projectId": "raybet-id",
+    "projectName": "raybet",
+    "functions": [
+        {
+            "$id": "syncMatches",
+            "name": "syncMatches",
+            "runtime": "node-18.0",
+            "path": "functions/syncMatches",
+            "entrypoint": "src/main.js",
+            "ignore": [
+                "node_modules",
+                ".gitignore"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "0 * * * *",
+            "timeout": 15,
+            "scopes": [
+                "documents.read",
+                "documents.write"
+            ]
+        }
+    ]
+}
