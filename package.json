@@ -12,8 +12,16 @@
     "machine-translate": "inlang machine translate --project project.inlang"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Jan Szotkowski",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janszotkowski/raybet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/janszotkowski/raybet/issues"
+  },
+  "homepage": "https://github.com/janszotkowski/raybet#readme",
   "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "@tanstack/react-query": "5.90.20",
