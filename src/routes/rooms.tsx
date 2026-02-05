@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useProfileStore } from '@/lib/store/profileStore';
 import { useMyRooms } from '@/lib/hooks/useMyRooms';
 import { useOwnedRooms } from '@/lib/hooks/useOwnedRooms';
 import { RoomList } from '@/components/features/rooms/RoomList';
@@ -18,12 +19,38 @@ function RoomsPage() {
     const {data: myRooms, isLoading: loadingMyRooms} = useMyRooms(userId);
     const {data: ownedRooms, isLoading: loadingOwnedRooms} = useOwnedRooms(userId);
 
+    const {setProfile} = useProfileStore();
+    const navigate = useNavigate();
+
     const [shareModalOpen, setShareModalOpen] = React.useState(false);
     const [selectedRoom, setSelectedRoom] = React.useState<{ $id: string, name: string } | null>(null);
 
     const handleShare = (room: { $id: string, name: string }) => {
         setSelectedRoom(room);
         setShareModalOpen(true);
+    };
+
+    const handleEnter = (item: any) => {
+        // If item is Profile (from joined list), it has roomId and is a profile object
+        if (item.roomId) {
+            setProfile(item);
+            navigate({to: '/'});
+            return;
+        }
+
+        // If item is Room (from owned list), we need to find the profile for this room
+        // Since I own it, I am in it.
+        if (myRooms) {
+            const profile = myRooms.find((p) => p.roomId === item.$id);
+            if (profile) {
+                setProfile(profile);
+                navigate({to: '/'});
+                return;
+            }
+        }
+
+        // Fallback if not found (latency?): Redirect to home, maybe AuthGuard will pick it up or we stay here.
+        console.error('Could not find profile for room', item.$id);
     };
 
     return (
@@ -60,6 +87,7 @@ function RoomsPage() {
                             items={ownedRooms || []}
                             type={'owned'}
                             onShare={handleShare}
+                            onEnter={handleEnter}
                         />
                     )}
                 </section>
@@ -74,6 +102,7 @@ function RoomsPage() {
                             items={myRooms || []}
                             type={'joined'}
                             onShare={handleShare}
+                            onEnter={handleEnter}
                         />
                     )}
                 </section>

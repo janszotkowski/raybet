@@ -1,13 +1,15 @@
 import * as React from 'react';
-import type { Room, Profile } from '../../../lib/appwrite/types';
+import type { Profile, Room } from '@/lib/appwrite/types';
 import { Button } from '../../ui/Button';
 import { Share2 } from 'lucide-react';
+import * as m from '../../../paraglide/messages';
 
 type RoomListProps = {
     title: string;
     items: Room[] | Profile[];
     type: 'joined' | 'owned';
     onShare: (room: Room | any) => void;
+    onEnter: (room: Room | any) => void;
 };
 
 export const RoomList: React.FC<RoomListProps> = (props: RoomListProps): React.ReactElement => {
@@ -50,28 +52,38 @@ export const RoomList: React.FC<RoomListProps> = (props: RoomListProps): React.R
                     return (
                         <div
                             key={item.$id}
-                            className={'bg-sport-card/80 hover:bg-sport-card transition-all p-5 rounded-xl border border-sport-card-border backdrop-blur-sm flex justify-between items-center group relative overflow-hidden'}
+                            className={'bg-sport-card/80 hover:bg-sport-card transition-all p-5 rounded-xl border border-sport-card-border backdrop-blur-sm flex flex-col justify-between items-start gap-4 group relative overflow-hidden'}
                         >
                             {/* Decorative gradient glow */}
-                            <div className={'absolute top-0 right-0 w-20 h-20 bg-brand-primary/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none'} />
+                            <div className={'absolute top-0 right-0 w-20 h-20 bg-brand-primary/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none'}/>
 
-                            <div className={'z-10'}>
-                                <h4 className={'font-bold text-white text-lg tracking-tight'}>{displayName}</h4>
+                            <div className={'z-10 w-full min-w-0 pr-0'}>
+                                <h4 className={'font-bold text-white text-lg tracking-tight truncate'}>{displayName}</h4>
                                 <span className={'text-xs text-brand-primary uppercase tracking-widest font-bold'}>
-                                    {props.type === 'owned' ? 'ADMIN' : 'MEMBER'}
+                                    {props.type === 'owned' ? m.role_admin() : m.role_member()}
                                 </span>
                             </div>
 
-                            <Button
-                                variant={'secondary'}
-                                size={'sm'}
-                                onClick={() => props.onShare(room || { $id: profile?.roomId, name: displayName })}
-                                className={'z-10 shrink-0 border-sport-card-border/50 bg-sport-card hover:bg-sport-card/80'}
-                                title={'Share room'}
-                            >
-                                <Share2 className={'w-4 h-4 text-brand-primary mr-2'} />
-                                <span className={'text-xs font-bold text-white'}>Share</span>
-                            </Button>
+                            <div className={'flex gap-2 z-10 shrink-0 w-full justify-end mt-2'}>
+                                <Button
+                                    variant={'primary'}
+                                    size={'sm'}
+                                    onClick={() => props.onEnter(item)}
+                                >
+                                    {/* Ideally we import * as m from messages but to avoid breaking existing imports/lints quickly if not imported: */}
+                                    Enter
+                                </Button>
+                                <Button
+                                    variant={'secondary'}
+                                    size={'sm'}
+                                    onClick={() => props.onShare(room || {$id: profile?.roomId, name: displayName})}
+                                    className={'border-sport-card-border/50 bg-sport-card hover:bg-sport-card/80'}
+                                    title={'Share room'}
+                                >
+                                    <Share2 className={'w-4 h-4 text-brand-primary mr-2'}/>
+                                    <span className={'text-xs font-bold text-white'}>Share</span>
+                                </Button>
+                            </div>
                         </div>
                     );
                 })}

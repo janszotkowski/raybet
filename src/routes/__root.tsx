@@ -9,7 +9,8 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { Loader2 } from 'lucide-react';
 import { useProfileStore } from '@/lib/store/profileStore';
 import { playerService } from '@/lib/appwrite/services/playerService';
-import { useLanguageStore } from '../lib/store/languageStore';
+import { useLanguageStore } from '@/lib/store/languageStore';
+import { Toaster } from 'sonner';
 
 export const Route = createRootRoute({
     head: () => ({
@@ -138,6 +139,7 @@ function RootComponent() {
                     <MainLayout>
                         <Outlet/>
                     </MainLayout>
+                    <Toaster position={'top-center'} richColors/>
                 </AuthGuard>
             </QueryClientProvider>
         </RootDocument>

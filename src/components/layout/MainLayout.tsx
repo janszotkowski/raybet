@@ -4,6 +4,8 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import * as m from '../../paraglide/messages';
 import { LanguageSwitcher } from '../features/language/LanguageSwitcher';
+import { roomService } from '@/lib/appwrite/services/roomService';
+import { useProfileStore } from '@/lib/store/profileStore';
 
 // Simple stick icon component
 const HockeyIcon = ({className}: { className?: string }) => (
@@ -25,7 +27,37 @@ type MainLayoutProps = {
     children: React.ReactNode;
 };
 
+// ... (existing imports)
+
 export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): React.ReactElement => {
+    const {profile} = useProfileStore();
+    const [roomName, setRoomName] = React.useState<string | null>(null);
+
+    React.useEffect(() => {
+        const fetchRoomName = async () => {
+            if (profile?.roomId) {
+                // Optimization: If profile already has room expanded (profile.room), use it.
+                // Otherwise fetch.
+                // Checking if we can access it safely
+                const potentialName = (profile as any)?.room?.name;
+                if (potentialName) {
+                    setRoomName(potentialName);
+                    return;
+                }
+
+                try {
+                    const room = await roomService.getRoom(profile.roomId);
+                    setRoomName(room.name);
+                } catch (e) {
+                    console.error('Failed to fetch room name', e);
+                }
+            } else {
+                setRoomName(null);
+            }
+        };
+        fetchRoomName();
+    }, [profile?.roomId, (profile as any)?.room?.name]);
+
     return (
         <div className={'w-full h-full mx-auto max-w-120 bg-sport-bg relative flex flex-col sm:border-x sm:border-sport-card-border overflow-hidden shadow-2xl'}>
             {/* Header */}
@@ -37,6 +69,11 @@ export const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps): R
                         <div className={'h-10 w-10 rounded-xl border border-brand-primary/30 flex items-center justify-center bg-sport-card shadow-[0_0_15px_rgba(45,212,191,0.15)]'}>
                             <HockeyIcon className={'text-brand-primary w-6 h-6'}/>
                         </div>
+                        {roomName && (
+                            <span className={'mt-1 text-[10px] font-bold text-brand-primary/80 tracking-widest uppercase truncate max-w-[120px]'}>
+                                {roomName}
+                            </span>
+                        )}
                     </div>
 
                     {/* Language Switcher */}

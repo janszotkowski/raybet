@@ -1,13 +1,14 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Camera, Lock, LogOut, Medal, Trophy } from 'lucide-react';
 import * as React from 'react';
-import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
-import { Input } from '../components/ui/Input';
-import { playerService } from '../lib/appwrite/services/playerService';
-import { useAuthStore } from '../lib/store/authStore';
-import { useProfileStore } from '../lib/store/profileStore';
-import { cn } from '../lib/utils';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/Input';
+import { playerService } from '@/lib/appwrite/services/playerService';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useProfileStore } from '@/lib/store/profileStore';
+import { cn } from '@/lib/utils';
 import * as m from '../paraglide/messages';
 
 export const Route = createFileRoute('/profile')({
@@ -15,19 +16,19 @@ export const Route = createFileRoute('/profile')({
 });
 
 const COUNTRIES = [
-    { code: 'CAN', name: 'Canada' },
-    { code: 'USA', name: 'USA' },
-    { code: 'CZE', name: 'Czech Republic' },
-    { code: 'SWE', name: 'Sweden' },
-    { code: 'FIN', name: 'Finland' },
-    { code: 'SVK', name: 'Slovakia' },
-    { code: 'SUI', name: 'Switzerland' },
-    { code: 'GER', name: 'Germany' },
+    {code: 'CAN', name: 'Canada'},
+    {code: 'USA', name: 'USA'},
+    {code: 'CZE', name: 'Czech Republic'},
+    {code: 'SWE', name: 'Sweden'},
+    {code: 'FIN', name: 'Finland'},
+    {code: 'SVK', name: 'Slovakia'},
+    {code: 'SUI', name: 'Switzerland'},
+    {code: 'GER', name: 'Germany'},
 ];
 
 function ProfilePage() {
-    const { userId, logout } = useAuthStore();
-    const { profile, setProfile } = useProfileStore();
+    const {userId, logout} = useAuthStore();
+    const {profile, setProfile} = useProfileStore();
     const navigate = useNavigate();
 
     const [avatarUrl, setAvatarUrl] = React.useState(profile?.avatarUrl || '');
@@ -37,9 +38,16 @@ function ProfilePage() {
 
     React.useEffect(() => {
         if (!userId) {
-            navigate({ to: '/' });
+            navigate({to: '/'});
+            return;
         }
-        if (profile) {
+        // If we have userId but no profile, and we are not loading, it means the user hasn't completed onboarding.
+        // The AuthGuard handles loading state, so if we are here, we might be in a state where profile is null.
+        // We probably want to redirect to onboarding index page.
+        // However, ProfilePage expects a profile.
+        if (!profile) {
+            navigate({to: '/'});
+        } else {
             setAvatarUrl(profile.avatarUrl || '');
             setWinnerTip(profile.tournamentWinnerTip || '');
         }
@@ -83,7 +91,7 @@ function ProfilePage() {
         try {
             const updated = await playerService.setTournamentTip(profile.$id, winnerTip);
             setProfile(updated);
-            alert(m.msg_tip_saved());
+            toast.success(m.msg_tip_saved());
         } catch (err) {
             console.error('Failed to save tip', err);
         } finally {
@@ -94,7 +102,7 @@ function ProfilePage() {
     const logoutProfile = () => {
         logout();
         setProfile(null);
-        navigate({ to: '/' });
+        navigate({to: '/'});
     };
 
     if (!profile) return (
@@ -129,7 +137,7 @@ function ProfilePage() {
                             onClick={() => setShowAvatarInput(!showAvatarInput)}
                             className={'absolute bottom-1 right-1 h-8 w-8 bg-brand-primary text-sport-bg rounded-full flex items-center justify-center shadow-lg border-2 border-sport-bg'}
                         >
-                            <Camera size={14} />
+                            <Camera size={14}/>
                         </button>
                     </div>
                 </div>
@@ -192,7 +200,7 @@ function ProfilePage() {
                 )}
                 >
                     <div className={'flex items-center gap-3 mb-4'}>
-                        <Trophy className={'text-brand-primary'} size={20} />
+                        <Trophy className={'text-brand-primary'} size={20}/>
                         <h3 className={'font-bold text-white text-lg'}>{m.profile_tournament_winner()}</h3>
                     </div>
 
@@ -214,7 +222,7 @@ function ProfilePage() {
                             ))}
                         </select>
                         <div className={'absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary'}>
-                            {profile.isTournamentTipLocked ? <Lock size={16} /> : <div className={'w-2 h-2 border-r-2 border-b-2 border-current rotate-45'} />}
+                            {profile.isTournamentTipLocked ? <Lock size={16}/> : <div className={'w-2 h-2 border-r-2 border-b-2 border-current rotate-45'}/>}
                         </div>
                     </div>
 
@@ -232,7 +240,7 @@ function ProfilePage() {
 
                     {profile.isTournamentTipLocked && (
                         <div className={'mt-4 flex items-center gap-2 text-xs text-text-secondary'}>
-                            <Medal size={14} /> {m.status_tip_locked()}
+                            <Medal size={14}/> {m.status_tip_locked()}
                         </div>
                     )}
                 </Card>
@@ -243,7 +251,7 @@ function ProfilePage() {
                             onClick={handleLockTip}
                             className={'text-xs text-text-secondary hover:text-red-500 transition-colors flex items-center gap-1 mx-auto'}
                         >
-                            <Lock size={12} /> {m.action_lock_prediction()}
+                            <Lock size={12}/> {m.action_lock_prediction()}
                         </button>
                     </div>
                 )}
@@ -254,7 +262,7 @@ function ProfilePage() {
                     onClick={logoutProfile}
                     className={'w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-sport-card text-text-secondary text-sm font-bold hover:bg-sport-card/80 hover:text-white transition-colors'}
                 >
-                    <LogOut size={16} />
+                    <LogOut size={16}/>
                     {m.action_logout()}
                 </button>
             </div>
