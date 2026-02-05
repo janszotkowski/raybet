@@ -55,5 +55,22 @@
   "action_new": "New",
   "rooms_managed": "Managed Rooms",
   "rooms_joined": "Rooms I Play In",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "welcome_title": "Welcome, {name}!",
+  "welcome_subtitle": "To get started, you need to join a room.",
+  "action_have_room_code": "I have a room code",
+  "or": "OR",
+  "action_create_room": "Create a new room",
+  "action_back": "Back",
+  "room_create_title": "Create Game",
+  "room_create_subtitle": "Start a new room for your colleagues.",
+  "label_nickname": "Nickname",
+  "action_create_and_enter": "Create and Enter",
+  "room_name_placeholder": "IT Department",
+  "nickname_placeholder": "John",
+  "label_room_name": "Room Name",
+  "err_create_room_failed": "Failed to create room. Please try again.",
+  "err_already_in_room": "You are already a member of a room.",
+  "success_room_created": "Room created successfully!",
+  "action_enter_room": "Enter"
 }
