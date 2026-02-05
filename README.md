@@ -1,91 +1,65 @@
-**Zadání:**
+# 🏒 Hokejová Tipovačka / Hockey Predictor
 
-**Design a UI**
+[English](#english) | [Česky](#česky)
 
-Vizuální styl: Celá aplikace musí být v ideálně v barvách loga Raynetu (tyrkysová, světle modrá a tmavě modrá). Logo samotné zakomponuj někam vkusně do horní části aplikace, ale whatever..
+---
 
-Layout: Musí to být jednotné pro mobil i web. Vycentrovaný kontejner pro mobilní zobrazení o maximální šířce 480px, který bude na desktopu uprostřed obrazovky. Viz. Figma.
+<a name="english"></a>
+## �🇧 English
 
-**Registrace a login page**
+### ℹ️ About
+**Hokejová Tipovačka** is a free, open-source application built **just for fun**. The primary goal of this project was to learn and experiment with **Appwrite** in a real-world scenario. It serves as a playground for trying out new technologies and approaches.
 
-Tahle část ve figme není. Jako db použít https://appwrite.io/
+This entire project is completely **vibecoded** ✨.
 
-Registrace, Login a systém Místností (Rooms)
-Kromě samotného profilu a zápasů musíme vyřešit vstup uživatele do aplikace. Základem je, že každý hráč musí být v nějaké "Room", aby mohl soutěžit s ostatními.
+### 🥅 The Application
+This is a comprehensive hockey prediction platform where users can:
+- Predict scores for upcoming matches.
+- Compete against others in a global leaderboard.
+- Manage their user profiles.
+- Enjoy a modern, responsive user interface.
 
-1. Vstupní stránka (Landing / Login)
+### 🛠 Tech Stack
+Built with the latest cutting-edge technologies:
+- **Framework:** [TanStack Start](https://tanstack.com/start/latest) (Beta) - Server-Side Rendering & Server Functions
+- **Language:** [TypeScript](https://www.typescriptlang.org/) - Strict typing for safety
+- **UI Library:** [React 19](https://react.dev/) - Modern React features
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) - The latest engine for utility-first CSS
+- **Backend:** [Appwrite](https://appwrite.io/) - Authentication, Database, and secure backend logic
+- **State Management:**
+  - Server State: [TanStack Query](https://tanstack.com/query/latest)
+  - Global Client State: [Zustand](https://github.com/pmndrs/zustand)
+- **Internationalization:** [Paraglide.js](https://inlang.com/) - Type-safe i18n
 
-Pokud uživatel není přihlášen, uvidí jednoduchý rozcestník: Přihlásit se nebo Vytvořit účet.
+*Made with ❤️ and pure vibe.*
 
-Pod tím musí být výrazné pole: "Máš kód místnosti? Vlož ho zde". Po zadání ID místnosti a potvrzení bude uživatel přesměrován na registraci, která ho po dokončení automaticky hodí do dané místnosti.
+---
 
-2. Proces po registraci (Onboarding) Pokud se uživatel zaregistruje napřímo (ne přes pozvánku), musí mít na výběr dvě cesty:
+<a name="česky"></a>
+## 🇨🇿 Česky
 
-Vytvořit novou místnost: Uživatel zadá název (např. "IT Oddělení - Tipovačka") a aplikace mu vygeneruje unikátní uuid.
+### ℹ️ O projektu
+**Hokejová Tipovačka** je open-source aplikace, která je zcela **zdarma** a vznikla jen tak **pro zábavu**. Hlavním účelem vzniku této aplikace bylo naučit se pracovat s platformou **Appwrite** na reálném projektu. Slouží jako bezpečné pískoviště pro zkoušení nových technologií a vibecoding.
 
-Vygeneruje QR kód pro pripojeni.
+Celá aplikace je kompletně **vibecoded** ✨.
 
-3. Správa místnosti a pozvánky
+### 🥅 O aplikaci
+Jedná se o aplikaci pro tipování výsledků hokejových zápasů, která umožňuje:
+- Tipovat přesné výsledky nadcházejících zápasů.
+- Soutěžit s ostatními v celkovém žebříčku.
+- Spravovat vlastní profil.
+- Užívat si moderní a responzivní rozhraní.
 
-V profilu nebo na hlavní stránce bude sekce "Moje místnost".
+### 🛠 Použité technologie
+Aplikace běží na nejnovějším tech stacku:
+- **Framework:** [TanStack Start](https://tanstack.com/start/latest) (Beta) - Server-Side Rendering & Server Functions
+- **Jazyk:** [TypeScript](https://www.typescriptlang.org/) - Striktní typování
+- **UI Knihovna:** [React 19](https://react.dev/) - Moderní React
+- **Stylování:** [Tailwind CSS v4](https://tailwindcss.com/) - Nejnovější verze CSS frameworku
+- **Backend:** [Appwrite](https://appwrite.io/) - Autentizace, Databáze a backend logika
+- **Správa stavu:**
+  - Server: [TanStack Query](https://tanstack.com/query/latest)
+  - Klient: [Zustand](https://github.com/pmndrs/zustand)
+- **Překlady:** [Paraglide.js](https://inlang.com/) - Typově bezpečné překlady
 
-Bude tam tlačítko "Pozvat kolegy", které jedním kliknutím zkopíruje do schránky vygenerovaný text: "Pojď tipovat hokej na ZOH 2026! Registruj se zde: [link] nebo použij kód místnosti: [ID]".
-
-Úprava technického zadání pro ticket:
-Registrace a Login:
-
-Implementovat klasický e-mail + heslo (případně Google Auth pro zjednodušení v korporátu).
-
-Po prvním přihlášení vynutit buď vytvoření místnosti, nebo zadání ID kódu pro vstup do existující. Bez místnosti nelze tipovat.
-
-Logika místností:
-
-Vytvoření místnosti: Každá místnost má svůj název a unikátní ID v databázi. Zakladatel místnosti je "Admin", ale pro začátek stačí, když budou mít všichni stejná práva (prohlížení žebříčku).
-
-Vstup do místnosti: Uživatel může být členem více místností najednou (volitelné, ale doporučuji pro začátek omezit na jednu místnost pro jednoduchost vývoje).
-
-Data a propojení:
-
-Žebříček (Leaderboard) se bude vždy filtrovat podle ID místnosti. Uživatel tedy neuvidí tisíce cizích lidí, ale pouze své kolegy z dané místnosti.
-
-**Profil hráče:**
-
-Uživatel si zde může nahrát vlastní avatar.
-
-Musí zde být mřížka  se statistikami: Přesný výsledek, Správný rozdíl skóre, Tip vítěze zápasu a celková úspěšnost v procentech.
-
-Pod celkovým počtem bodů bude speciální kolonka pro tip vítěze celého turnaje. Měl by to být dropdown s listem všech národních týmů. Tento tip musí jít před začátkem olympiády uložit a následně uzamknout, aby už nešel měnit.
-
-<img width="1115" height="1287" alt="profil_hrace" src="https://github.com/user-attachments/assets/1c7ff779-8e1e-4c95-b2a9-6ecc754817b0" />
-
-<img width="723" height="310" alt="spodni_lista" src="https://github.com/user-attachments/assets/1a3f499a-801d-4fa2-9eae-73080c47a805" />
-
-**Zápasy a Data**
-
-API: Data pro jednotlivé zápasy budeme tahat z webu thesportsdb.com.
-
-Zobrazení: Seznam zápasů nebude rozdělený na taby podle fází turnaje. Vše půjde chronologicky za sebou (skupiny a pak playoff).
-
-Denní výpis: Na stránce se zápasy bude nahoře slider s jednotlivými dny. Po kliknutí na konkrétní den se zobrazí seznam zápasů pro dané datum. U každého zápasu budou dvě kolonky pro zadání výsledku.
-
-<img width="706" height="827" alt="zapasy" src="https://github.com/user-attachments/assets/23eab669-a221-44c6-a731-c620184246a5" />
-
-**Systém bodování**
-
-Body budeme rozdělovat následovně:
-
-6 bodů za přesný tip výsledku zápasu.
-
-4 body za uhodnutí správného rozdílu skóre.
-
-2 body za správný tip vítěze zápasu.
-
-15 bodů za správný tip celkového vítěze turnaje (toho, co si hráč uzamkne na profilu).
-
-**Žebříček**
-
-Poslední stránka bude obsahovat aktuální pořadí všech hráčů.
-
-Aktuálně přihlášený uživatel musí svou pozici vidět neustále (např. v ukotveném řádku dole), i když se v seznamu zrovna nenachází. Zde by mohlo být kromě celkových bodů také počet přesnýh tipů a možnost prokliknout se na profil jiného uživatele.
-
-<img width="670" height="1123" alt="ranking" src="https://github.com/user-attachments/assets/fb5b1cd7-6469-458e-9574-762dde4fa899" />
+*Vytvořeno s ❤️ a čistým vibem.*
