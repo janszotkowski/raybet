@@ -72,5 +72,20 @@
   "err_create_room_failed": "Failed to create room. Please try again.",
   "err_already_in_room": "You are already a member of a room.",
   "success_room_created": "Room created successfully!",
-  "action_enter_room": "Enter"
+  "action_enter_room": "Enter",
+  "rules_title": "Competition Rules",
+  "rules_scoring_header": "Scoring System - Winter Olympics 2026",
+  "rules_scoring_subtitle": "Points Allocation",
+  "rules_point_6": "6 points: Exact match score.",
+  "rules_point_4": "4 points: Correct goal difference (e.g. tip 3:1, result 5:3).",
+  "rules_point_2": "2 points: Correct match winner (or draw).",
+  "rules_point_15": "15 points: Correct tournament winner prediction.",
+  "rules_info_header": "Important Betting Rules",
+  "rules_info_basic_time_title": "Regular Time Only",
+  "rules_info_basic_time_text": "All match score predictions apply to regular time only (60 minutes). Overtime and penalty shootouts do not count towards scoring.",
+  "rules_info_winner_deadline_title": "Tournament Winner Deadline",
+  "rules_info_winner_deadline_text": "Tournament winner prediction must be submitted at least 2 minutes before the first match of the tournament. It cannot be changed afterwards.",
+  "rules_info_match_deadline_title": "Match Betting Deadline",
+  "rules_info_match_deadline_text": "Individual matches can be predicted continuously, but always at least 2 minutes before the start of the specific match.",
+  "profile_rules_link": "Scoring Rules"
 }

@@ -74,5 +74,20 @@
   "success_room_created": "Raum erfolgreich erstellt!",
   "action_enter_room": "Eintreten",
   "role_admin": "ADMIN",
-  "role_member": "MITGLIED"
+  "role_member": "MITGLIED",
+  "rules_title": "Wettbewerbsregeln",
+  "rules_scoring_header": "Punktesystem - Winterolympiade 2026",
+  "rules_scoring_subtitle": "Punktevergabe",
+  "rules_point_6": "6 Punkte: Exaktes Spielergebnis.",
+  "rules_point_4": "4 Punkte: Richtige Tordifferenz (z.B. Tipp 3:1, Ergebnis 5:3).",
+  "rules_point_2": "2 Punkte: Richtiger Sieger (oder Unentschieden).",
+  "rules_point_15": "15 Punkte: Richtiger Turniersieger.",
+  "rules_info_header": "Wichtige Wettregeln",
+  "rules_info_basic_time_title": "Nur reguläre Spielzeit",
+  "rules_info_basic_time_text": "Alle Tipps beziehen sich nur auf die reguläre Spielzeit (60 Minuten). Verlängerung und Penaltyschießen zählen nicht.",
+  "rules_info_winner_deadline_title": "Einsendeschluss Turniersieger",
+  "rules_info_winner_deadline_text": "Der Tipp auf den Turniersieger muss spätestens 2 Minuten vor Beginn des ersten Spiels abgegeben werden. Danach sind keine Änderungen mehr möglich.",
+  "rules_info_match_deadline_title": "Einsendeschluss Spiele",
+  "rules_info_match_deadline_text": "Einzelne Spiele können laufend getippt werden, jedoch immer spätestens 2 Minuten vor Spielbeginn.",
+  "profile_rules_link": "Punkteregeln"
 }

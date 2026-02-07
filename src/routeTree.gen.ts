@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as RulesRouteImport } from './routes/rules'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
@@ -25,6 +26,11 @@ const SignupRoute = SignupRouteImport.update({
 const SigninRoute = SigninRouteImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RulesRoute = RulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoomsRoute = RoomsRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/profile': typeof ProfileRoute
   '/rooms': typeof RoomsRoute
+  '/rules': typeof RulesRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/join/$roomId': typeof JoinRoomIdRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/profile': typeof ProfileRoute
   '/rooms': typeof RoomsRoute
+  '/rules': typeof RulesRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/join/$roomId': typeof JoinRoomIdRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/profile': typeof ProfileRoute
   '/rooms': typeof RoomsRoute
+  '/rules': typeof RulesRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/join/$roomId': typeof JoinRoomIdRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/profile'
     | '/rooms'
+    | '/rules'
     | '/signin'
     | '/signup'
     | '/join/$roomId'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/profile'
     | '/rooms'
+    | '/rules'
     | '/signin'
     | '/signup'
     | '/join/$roomId'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/profile'
     | '/rooms'
+    | '/rules'
     | '/signin'
     | '/signup'
     | '/join/$roomId'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   LeaderboardRoute: typeof LeaderboardRoute
   ProfileRoute: typeof ProfileRoute
   RoomsRoute: typeof RoomsRoute
+  RulesRoute: typeof RulesRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
   JoinRoomIdRoute: typeof JoinRoomIdRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rules': {
+      id: '/rules'
+      path: '/rules'
+      fullPath: '/rules'
+      preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rooms': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   LeaderboardRoute: LeaderboardRoute,
   ProfileRoute: ProfileRoute,
   RoomsRoute: RoomsRoute,
+  RulesRoute: RulesRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
   JoinRoomIdRoute: JoinRoomIdRoute,

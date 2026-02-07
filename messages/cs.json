@@ -74,5 +74,20 @@
     "success_room_created": "Místnost úspěšně vytvořena!",
     "action_enter_room": "Vstoupit",
     "role_admin": "SPRÁVCE",
-    "role_member": "ČLEN"
+    "role_member": "ČLEN",
+    "rules_title": "Pravidla soutěže",
+    "rules_scoring_header": "Systém bodování – ZOH 2026",
+    "rules_scoring_subtitle": "Bodové ohodnocení",
+    "rules_point_6": "6 bodů: Přesný výsledek zápasu.",
+    "rules_point_4": "4 body: Správný brankový rozdíl (např. tip 3:1, výsledek 5:3).",
+    "rules_point_2": "2 body: Správný tip vítěze zápasu (nebo remízy).",
+    "rules_point_15": "15 bodů: Správný tip na celkového vítěze turnaje.",
+    "rules_info_header": "Důležitá pravidla tipování",
+    "rules_info_basic_time_title": "Základní hrací doba",
+    "rules_info_basic_time_text": "Všechny tipy na výsledky zápasů se vztahují pouze na základní hrací dobu (60 minut). Výsledky v prodloužení ani po samostatných nájezdech se do bodování nepočítají.",
+    "rules_info_winner_deadline_title": "Uzávěrka pro celkového vítěze",
+    "rules_info_winner_deadline_text": "Tip na vítěze turnaje musí být odeslán nejpozději 2 minuty před zahájením prvního zápasu turnaje. Později již nelze tip zadat ani měnit.",
+    "rules_info_match_deadline_title": "Uzávěrka pro zápasy",
+    "rules_info_match_deadline_text": "Jednotlivá utkání lze tipovat průběžně, nejpozději však vždy 2 minuty před začátkem daného zápasu.",
+    "profile_rules_link": "Pravidla bodování"
 }

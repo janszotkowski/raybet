@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Camera, Lock, LogOut, Medal, Trophy } from 'lucide-react';
+import { Camera, Lock, LogOut, Medal, ScrollText, Trophy } from 'lucide-react';
 import * as React from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/Button';
@@ -257,7 +257,15 @@ function ProfilePage() {
                 )}
             </div>
 
-            <div className={'px-4 mt-6 mb-4'}>
+            <div className={'px-4 mt-6 mb-4 space-y-3'}>
+                <button
+                    onClick={() => navigate({to: '/rules'})}
+                    className={'w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-sport-card border border-sport-card-border text-white text-sm font-bold hover:bg-sport-card/80 transition-colors'}
+                >
+                    <ScrollText size={16} className={'text-brand-secondary'}/>
+                    {m.profile_rules_link()}
+                </button>
+
                 <button
                     onClick={logoutProfile}
                     className={'w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-sport-card text-text-secondary text-sm font-bold hover:bg-sport-card/80 hover:text-white transition-colors'}

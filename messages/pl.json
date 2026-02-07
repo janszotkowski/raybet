@@ -74,5 +74,20 @@
     "success_room_created": "Pokój utworzony pomyślnie!",
     "action_enter_room": "Wejdź",
     "role_admin": "ADMIN",
-    "role_member": "CZŁONEK"
+    "role_member": "CZŁONEK",
+    "rules_title": "Zasady Konkursu",
+    "rules_scoring_header": "System Punktacji - Zimowe Igrzyska Olimpijskie 2026",
+    "rules_scoring_subtitle": "Przyznawanie Punktów",
+    "rules_point_6": "6 punktów: Dokładny wynik meczu.",
+    "rules_point_4": "4 punkty: Prawidłowa różnica bramek (np. typ 3:1, wynik 5:3).",
+    "rules_point_2": "2 punkty: Prawidłowy zwycięzca meczu (lub remis).",
+    "rules_point_15": "15 punktów: Prawidłowy zwycięzca turnieju.",
+    "rules_info_header": "Ważne Zasady Typowania",
+    "rules_info_basic_time_title": "Tylko regulaminowy czas gry",
+    "rules_info_basic_time_text": "Wszystkie typy dotyczą tylko regulaminowego czasu gry (60 minut). Dogrywka i rzuty karne nie są wliczane do punktacji.",
+    "rules_info_winner_deadline_title": "Termin typowania zwycięzcy",
+    "rules_info_winner_deadline_text": "Typ na zwycięzcę turnieju musi zostać przesłany najpóźniej 2 minuty przed rozpoczęciem pierwszego meczu. Później nie można go zmienić.",
+    "rules_info_match_deadline_title": "Termin typowania meczów",
+    "rules_info_match_deadline_text": "Poszczególne mecze można typować na bieżąco, jednak zawsze najpóźniej 2 minuty przed rozpoczęciem danego spotkania.",
+    "profile_rules_link": "Zasady Punktacji"
 }
