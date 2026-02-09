@@ -4,6 +4,7 @@ import * as m from '../../../paraglide/messages';
 import { predictionService } from '@/lib/appwrite/services/predictionService';
 import type { Match, Prediction } from '@/lib/appwrite/types';
 import { useAuthStore } from '@/lib/store/authStore';
+import { isMatchLocked } from '@/lib/matchUtils';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 
@@ -37,7 +38,8 @@ export const MatchCard: React.FC<MatchCardProps> = (props: MatchCardProps): Reac
 
     const isLive = match.status === 'in_progress';
     const isFinished = match.status === 'completed';
-    const isLocked = isLive || isFinished || match.status === 'canceled';
+    // Use shared utility for locking logic (status + time)
+    const isLocked = isMatchLocked(match);
 
     // Auto-enter edit mode if not locked and no prediction
     React.useEffect(() => {

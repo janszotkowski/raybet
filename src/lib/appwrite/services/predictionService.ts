@@ -1,12 +1,21 @@
+// ... imports
 import { ID, Query } from 'appwrite';
 import { tables } from '../client';
 import { appwriteConfig } from '../config';
 import type { Prediction, CreatePredictionRequest } from '../types';
+import { matchService } from './matchService';
+import { isMatchLocked } from '../../matchUtils';
 
 const { databaseId, collections } = appwriteConfig;
 
 export const predictionService = {
     async createPrediction(payload: CreatePredictionRequest): Promise<Prediction> {
+        // Validation: Check if match is locked
+        const match = await matchService.getMatch(payload.matchId);
+        if (isMatchLocked(match)) {
+            throw new Error('Prediction is locked for this match.');
+        }
+
         return await tables.createRow({
             databaseId,
             tableId: collections.predictions,
@@ -21,6 +30,19 @@ export const predictionService = {
     },
 
     async updatePrediction(predictionId: string, homeScore: number, awayScore: number): Promise<Prediction> {
+        // Validation: Check if match is locked
+        // We first need to get the prediction to know which match it belongs to
+        const prediction = await tables.getRow({
+            databaseId,
+            tableId: collections.predictions,
+            rowId: predictionId
+        }) as unknown as Prediction;
+
+        const match = await matchService.getMatch(prediction.matchId);
+        if (isMatchLocked(match)) {
+            throw new Error('Prediction is locked for this match.');
+        }
+
         return await tables.updateRow({
             databaseId,
             tableId: collections.predictions,
