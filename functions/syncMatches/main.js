@@ -22,31 +22,24 @@ export default async ({ req, res, log, error }) => {
     const LEAGUE_ID = process.env.THESPORTSDB_LEAGUE_ID || DEFAULT_LEAGUE_ID;
     // User specified "123" as the free key, though "3" is the standard public test key.
     // We will respect the env var if present, else default to "123" or "3".
-    const API_KEY = process.env.THESPORTSDB_API_KEY || '123';
+    const API_KEY = process.env.THESPORTSDB_API_KEY || '3';
 
     try {
         log(`Starting sync(v1) for League ID: ${LEAGUE_ID} with API Key: ${API_KEY} `);
 
         // 2. Fetch data from TheSportsDB v1
-        // Endpoints:
-        // /eventsnextleague.php?id=XXXX
-        // /eventspastleague.php?id=XXXX
+        // Endpoint: /eventsseason.php?id=XXXX&s=YYYY
+        // User requested URL: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=5137&s=2026
 
-        const [nextEventsRes, pastEventsRes] = await Promise.all([
-            axios.get(`${THESPORTSDB_V1_BASE_URL}/${API_KEY}/eventsnextleague.php?id=${LEAGUE_ID}`),
-            axios.get(`${THESPORTSDB_V1_BASE_URL}/${API_KEY}/eventspastleague.php?id=${LEAGUE_ID}`)
-        ]);
+        const SEASON = '2026';
+        const url = `${THESPORTSDB_V1_BASE_URL}/${API_KEY}/eventsseason.php?id=${LEAGUE_ID}&s=${SEASON}`;
 
-        const nextEvents = nextEventsRes.data.events || [];
-        const pastEvents = pastEventsRes.data.events || [];
+        log(`Fetching events from: ${url}`);
 
-        // Combine (past events override next events if ID matches, though usually they are distinct sets)
-        // We use a Map to ensure uniqueness by ID.
-        const allEventsMap = new Map();
-        [...pastEvents, ...nextEvents].forEach(evt => allEventsMap.set(evt.idEvent, evt));
-        const allEvents = Array.from(allEventsMap.values());
+        const response = await axios.get(url);
+        const allEvents = response.data.events || [];
 
-        log(`Fetched ${allEvents.length} events(Past: ${pastEvents.length}, Next: ${nextEvents.length}) from v1 API.`);
+        log(`Fetched ${allEvents.length} events from v1 API (Season: ${SEASON}).`);
 
         let createdCount = 0;
         let updatedCount = 0;
