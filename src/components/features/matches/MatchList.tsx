@@ -53,7 +53,9 @@ export const MatchList: React.FC = (): React.ReactElement => {
         fetchData();
     }, [userId]);
 
-    const filteredMatches = matches.filter(m => m.date.startsWith(selectedDate));
+    const filteredMatches = matches
+        .filter(m => m.date.startsWith(selectedDate))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     if (isLoading) return (
         <div className={'flex flex-col items-center justify-center min-h-[300px]'}>
