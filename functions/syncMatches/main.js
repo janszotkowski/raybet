@@ -4,7 +4,7 @@ import axios from 'axios';
 // Constants
 const THESPORTSDB_V1_BASE_URL = 'https://www.thesportsdb.com/api/v1/json';
 // Defaults: NHL (4380)
-const DEFAULT_LEAGUE_ID = '4380';
+const DEFAULT_LEAGUE_ID = '5137';
 
 export default async ({ req, res, log, error }) => {
     // 1. Initialize Appwrite Client
