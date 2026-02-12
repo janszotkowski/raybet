@@ -1,4 +1,4 @@
-import { Client, Databases, Query, ID } from 'node-appwrite';
+import {Client, Databases, Query, ID} from 'node-appwrite';
 import axios from 'axios';
 
 // Constants
@@ -6,7 +6,7 @@ const THESPORTSDB_V1_BASE_URL = 'https://www.thesportsdb.com/api/v1/json';
 // Defaults: NHL (4380)
 const DEFAULT_LEAGUE_ID = '5137';
 
-export default async ({ req, res, log, error }) => {
+export default async ({req, res, log, error}) => {
     // 1. Initialize Appwrite Client
     const client = new Client()
         .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
@@ -125,18 +125,167 @@ export default async ({ req, res, log, error }) => {
             }
         }
 
-        log(`Sync complete.Created: ${createdCount}, Updated: ${updatedCount}, Skipped: ${skippedCount} `);
+        log(`Sync complete. Created: ${createdCount}, Updated: ${updatedCount}, Skipped: ${skippedCount}`);
+
+        // ---------------------------------------------------------
+        // 4. Calculate Points (Recalculate ALL points for consistency)
+        // ---------------------------------------------------------
+
+        log('Starting point recalculation...');
+
+        // A. Fetch all COMPLETED matches
+        // We need to paginate if > 100, but for now we assume < 100 completed matches for this tournament context
+        const completedMatches = await db.listDocuments(
+            DATABASE_ID,
+            COLLECTION_MATCHES,
+            [
+                Query.equal('status', 'completed'),
+                Query.limit(100)
+            ]
+        );
+
+        const matchMap = new Map();
+        completedMatches.documents.forEach(m => {
+            matchMap.set(m.$id, m);
+        });
+
+        // B. Fetch all Predictions
+        // In a real large scale app, we would only fetch predictions for the matches that just finished,
+        // or use an aggregation pipeline. valid for this scale.
+        // We'll fetch ALL predictions to ensure full consistency.
+        let allPredictions = [];
+        let pOffset = 0;
+        let pLimit = 100;
+        let pTotal = 0;
+
+        do {
+            const pRes = await db.listDocuments(
+                DATABASE_ID,
+                process.env.VITE_APPWRITE_COLLECTION_PREDICTIONS || 'predictions',
+                [
+                    Query.limit(pLimit),
+                    Query.offset(pOffset)
+                ]
+            );
+            allPredictions = allPredictions.concat(pRes.documents);
+            pTotal = pRes.total;
+            pOffset += pLimit;
+        } while (allPredictions.length < pTotal);
+
+        log(`Fetched ${allPredictions.length} predictions for recalculation.`);
+
+        // C. Calculate scores per user
+        const userPoints = new Map(); // userId -> totalPoints
+
+        allPredictions.forEach(pred => {
+            const match = matchMap.get(pred.matchId);
+            if (!match) return; // Prediction for a match that isn't completed or doesn't exist
+
+            const points = calculatePoints(pred, match);
+
+            const current = userPoints.get(pred.userId) || 0;
+            userPoints.set(pred.userId, current + points);
+        });
+
+        // D. Update Profiles
+        // Fetch all profiles to compare and update
+        let allProfiles = [];
+        let uOffset = 0;
+        let uLimit = 100;
+        let uTotal = 0;
+
+        do {
+            const uRes = await db.listDocuments(
+                DATABASE_ID,
+                process.env.VITE_APPWRITE_COLLECTION_PROFILES || 'profiles',
+                [
+                    Query.limit(uLimit),
+                    Query.offset(uOffset)
+                ]
+            );
+            allProfiles = allProfiles.concat(uRes.documents);
+            uTotal = uRes.total;
+            uOffset += uLimit;
+        } while (allProfiles.length < uTotal);
+
+        let profilesUpdated = 0;
+
+        for (const profile of allProfiles) {
+            const calculatedPoints = userPoints.get(profile.userId) || 0;
+
+            if (profile.totalPoints !== calculatedPoints) {
+                await db.updateDocument(
+                    DATABASE_ID,
+                    process.env.VITE_APPWRITE_COLLECTION_PROFILES || 'profiles',
+                    profile.$id,
+                    {
+                        totalPoints: calculatedPoints
+                    }
+                );
+                profilesUpdated++;
+                log(`Updated profile for ${profile.nickname} (${profile.userId}): ${profile.totalPoints} -> ${calculatedPoints}`);
+            }
+        }
+
+        log(`Point recalculation complete. Profiles updated: ${profilesUpdated}`);
 
         return res.json({
             success: true,
-            stats: { created: createdCount, updated: updatedCount, skipped: skippedCount }
+            stats: {
+                created: createdCount,
+                updated: updatedCount,
+                skipped: skippedCount,
+                profilesUpdated
+            }
         });
 
     } catch (err) {
-        error(`Error syncing matches: ${err.message} `);
+        error(`Error syncing matches: ${err.message}`);
         return res.json({
             success: false,
             error: err.message
         }, 500);
     }
 };
+
+/**
+ * Calculates points based on the rules:
+ * 6: Exact score
+ * 4: Correct winner/draw AND correct goal diff
+ * 2: Correct winner/draw
+ * 0: Incorrect
+ */
+function calculatePoints(prediction, match) {
+    if (match.homeScore === null || match.awayScore === null) return 0;
+    // Predictions usually store numbers, but verify.
+    // If prediction is missing scores, 0 points.
+    if (prediction.homeScore === null || prediction.awayScore === null || prediction.homeScore === undefined || prediction.awayScore === undefined) return 0;
+
+    const pHome = Number(prediction.homeScore);
+    const pAway = Number(prediction.awayScore);
+    const mHome = Number(match.homeScore);
+    const mAway = Number(match.awayScore);
+
+    // 1. Exact score (6 pts)
+    if (pHome === mHome && pAway === mAway) {
+        return 6;
+    }
+
+    const pDiff = pHome - pAway;
+    const mDiff = mHome - mAway;
+
+    const pResult = Math.sign(pDiff); // 1 = Home, -1 = Away, 0 = Draw
+    const mResult = Math.sign(mDiff);
+
+    // 2. Correct outcome (Winner/Draw)
+    if (pResult === mResult) {
+        // Check for correct goal difference (4 pts)
+        if (pDiff === mDiff) {
+            return 4;
+        }
+        // Just correct outcome (2 pts)
+        return 2;
+    }
+
+    return 0;
+}
