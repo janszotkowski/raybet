@@ -1,4 +1,4 @@
-import {Client, Databases, Query, ID} from 'node-appwrite';
+import { Client, Databases, Query, ID } from 'node-appwrite';
 import axios from 'axios';
 
 // Constants
@@ -6,7 +6,7 @@ const THESPORTSDB_V1_BASE_URL = 'https://www.thesportsdb.com/api/v1/json';
 // Defaults: NHL (4380)
 const DEFAULT_LEAGUE_ID = '5137';
 
-export default async ({req, res, log, error}) => {
+export default async ({ req, res, log, error }) => {
     // 1. Initialize Appwrite Client
     const client = new Client()
         .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
@@ -27,19 +27,19 @@ export default async ({req, res, log, error}) => {
     try {
         log(`Starting sync(v1) for League ID: ${LEAGUE_ID} with API Key: ${API_KEY} `);
 
-        // 2. Fetch data from TheSportsDB v1
-        // Endpoint: /eventsseason.php?id=XXXX&s=YYYY
-        // User requested URL: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=5137&s=2026
+        // 2. Fetch data from Beeceptor (RayBet specific endpoint)
+        // Endpoint: https://raybet.free.beeceptor.com/raybet.csv
+        // The endpoint returns JSON despite the .csv extension in the URL name provided by user.
 
-        const SEASON = '2026';
-        const url = `${THESPORTSDB_V1_BASE_URL}/${API_KEY}/eventsseason.php?id=${LEAGUE_ID}&s=${SEASON}`;
+        const url = 'https://raybet.free.beeceptor.com/raybet.csv';
 
         log(`Fetching events from: ${url}`);
 
         const response = await axios.get(url);
+        // The structure is { "events": [ ... ] }
         const allEvents = response.data.events || [];
 
-        log(`Fetched ${allEvents.length} events from v1 API (Season: ${SEASON}).`);
+        log(`Fetched ${allEvents.length} events from custom endpoint.`);
 
         let createdCount = 0;
         let updatedCount = 0;
@@ -47,25 +47,41 @@ export default async ({req, res, log, error}) => {
 
         // 3. Sync with Appwrite
         for (const event of allEvents) {
-            const externalId = event.idEvent;
-            const homeTeam = event.strHomeTeam;
-            const awayTeam = event.strAwayTeam;
-            // v1 date format is usually "YYYY-MM-DD" and time "HH:MM:SS"
-            const date = event.dateEvent + 'T' + (event.strTime || '00:00:00');
+            const externalId = event.externalId;
+            const homeTeam = event.homeTeam;
+            const awayTeam = event.awayTeam;
+            // New date format from source is ISO "2026-02-11T20:10:00" which is good for Appwrite
+            const date = event.date;
 
             // Status mapping
+            // Source uses "FT" (Full Time), "NS" (Not Started)
             let status = 'scheduled';
-            if (event.strStatus === 'Match Finished' || event.strStatus === 'FT') {
+            if (event.status === 'FT') {
                 status = 'completed';
-            } else if (event.strStatus === 'Live' || event.strStatus === 'In Progress') {
+            } else if (event.status === 'NS') {
+                status = 'scheduled';
+            } else if (event.status === 'Live' || event.status === 'In Progress') { // Keeping just in case
                 status = 'in_progress';
             }
 
-            const homeScore = event.intHomeScore ? parseInt(event.intHomeScore) : null;
-            const awayScore = event.intAwayScore ? parseInt(event.intAwayScore) : null;
+            // Scores come as strings "5", "2", or empty ""
+            // We use 0 if empty/null only if status is completed? 
+            // Actually better to keep null if not started.
+            // But per previous logic:
+            // "intHomeScore": "5" -> 5
 
-            const homeTeamBadge = event.strHomeTeamBadge;
-            const awayTeamBadge = event.strAwayTeamBadge;
+            let homeScore = null;
+            let awayScore = null;
+
+            if (event.intHomeScore !== "" && event.intHomeScore !== null && event.intHomeScore !== undefined) {
+                homeScore = parseInt(event.intHomeScore);
+            }
+            if (event.intAwayScore !== "" && event.intAwayScore !== null && event.intAwayScore !== undefined) {
+                awayScore = parseInt(event.intAwayScore);
+            }
+
+            // Badges are not provided by this endpoint.
+            // We will NOT update them. If creating new, they will be null.
 
             // Check if exists
             const existingMatches = await db.listDocuments(
@@ -80,9 +96,7 @@ export default async ({req, res, log, error}) => {
                 // Update if changed
                 if (doc.status !== status ||
                     doc.homeScore !== homeScore ||
-                    doc.awayScore !== awayScore ||
-                    doc.homeTeamBadge !== homeTeamBadge ||
-                    doc.awayTeamBadge !== awayTeamBadge
+                    doc.awayScore !== awayScore
                 ) {
                     await db.updateDocument(
                         DATABASE_ID,
@@ -94,8 +108,7 @@ export default async ({req, res, log, error}) => {
                             awayScore,
                             date,
                             leagueId: LEAGUE_ID,
-                            homeTeamBadge,
-                            awayTeamBadge
+                            // badges handled separately or ignored
                         }
                     );
                     updatedCount++;
@@ -117,8 +130,7 @@ export default async ({req, res, log, error}) => {
                         homeScore,
                         awayScore,
                         leagueId: LEAGUE_ID,
-                        homeTeamBadge,
-                        awayTeamBadge
+                        // homeTeamBadge, awayTeamBadge omitted
                     }
                 );
                 createdCount++;
