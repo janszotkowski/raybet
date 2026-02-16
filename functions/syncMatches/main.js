@@ -50,6 +50,8 @@ export default async ({ req, res, log, error }) => {
             const externalId = event.externalId;
             const homeTeam = event.homeTeam;
             const awayTeam = event.awayTeam;
+            const homeTeamBadge = event.strHomeTeamBadge;
+            const awayTeamBadge = event.strAwayTeamBadge;
             // New date format from source is ISO "2026-02-11T20:10:00" which is good for Appwrite
             const date = event.date;
 
@@ -130,7 +132,8 @@ export default async ({ req, res, log, error }) => {
                         homeScore,
                         awayScore,
                         leagueId: LEAGUE_ID,
-                        // homeTeamBadge, awayTeamBadge omitted
+                        homeTeamBadge,
+                        awayTeamBadge
                     }
                 );
                 createdCount++;
