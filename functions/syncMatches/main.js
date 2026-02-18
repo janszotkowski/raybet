@@ -1,5 +1,6 @@
 import { Client, Databases, Query, ID } from 'node-appwrite';
 import axios from 'axios';
+import { log } from 'console';
 
 // Constants
 const THESPORTSDB_V1_BASE_URL = 'https://www.thesportsdb.com/api/v1/json';
@@ -281,8 +282,18 @@ function calculatePoints(prediction, match) {
     const mHome = Number(match.homeScore);
     const mAway = Number(match.awayScore);
 
+    log(pHome);
+    log('------');
+    log(pAway);
+    log('------');
+    log(mHome);
+    log('------');
+    log(mAway);
+    log('------');
+
     // 1. Exact score (6 pts)
     if (pHome === mHome && pAway === mAway) {
+        log('Exact score');
         return 6;
     }
 
@@ -296,11 +307,14 @@ function calculatePoints(prediction, match) {
     if (pResult === mResult) {
         // Check for correct goal difference (4 pts)
         if (pDiff === mDiff) {
+            log('Correct goal difference');
             return 4;
         }
         // Just correct outcome (2 pts)
+        log('Just correct outcome');
         return 2;
     }
 
+    log('Incorrect');
     return 0;
 }
