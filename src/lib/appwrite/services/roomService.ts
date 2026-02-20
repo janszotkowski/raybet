@@ -29,7 +29,8 @@ export const roomService = {
     async listRooms(): Promise<Room[]> {
         const response = await tables.listRows({
             databaseId,
-            tableId: collections.rooms
+            tableId: collections.rooms,
+            queries: [Query.limit(5000)]
         });
         return response.rows as unknown as Room[];
     },
@@ -38,7 +39,7 @@ export const roomService = {
         const response = await tables.listRows({
             databaseId,
             tableId: collections.rooms,
-            queries: [Query.equal('ownerId', userId)]
+            queries: [Query.equal('ownerId', userId), Query.limit(5000)]
         });
         return response.rows as unknown as Room[];
     }

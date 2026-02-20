@@ -13,7 +13,7 @@ export const matchService = {
             databaseId,
             tableId: collections.matches,
             queries: [
-                Query.limit(100),
+                Query.limit(5000), // Increased to support larger tournaments/leagues
                 Query.orderAsc('date')
             ]
         });

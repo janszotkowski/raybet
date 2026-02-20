@@ -26,7 +26,7 @@ export const playerService = {
             const response = await tables.listRows({
                 databaseId,
                 tableId: collections.profiles,
-                queries: [Query.equal('userId', userId)]
+                queries: [Query.equal('userId', userId), Query.limit(5000)]
             });
             return (response.rows[0] as unknown as Profile) || null;
         } catch (error) {
@@ -40,7 +40,7 @@ export const playerService = {
             const response = await tables.listRows({
                 databaseId,
                 tableId: collections.profiles,
-                queries: [Query.equal('userId', userId)]
+                queries: [Query.equal('userId', userId), Query.limit(5000)]
             });
             return response.rows as unknown as Profile[];
         } catch (error) {
@@ -85,7 +85,7 @@ export const playerService = {
             tableId: collections.profiles,
             queries: [
                 Query.equal('roomId', roomId),
-                Query.limit(100), // Should paginate in reality
+                Query.limit(5000), // Increased from 100 to 5000 to prevent disappearing profiles
                 // Sorting will be done client side usually for complex points, but here we can try sorting by points if indexed
                 // Query.orderDesc('totalPoints') // Requires index
             ]

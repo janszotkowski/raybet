@@ -58,7 +58,7 @@ export const predictionService = {
         const response = await tables.listRows({
             databaseId,
             tableId: collections.predictions,
-            queries: [Query.equal('userId', userId)]
+            queries: [Query.equal('userId', userId), Query.limit(5000)]
         });
         return response.rows as unknown as Prediction[];
     }
